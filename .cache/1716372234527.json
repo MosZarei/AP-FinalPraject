@@ -1,0 +1,1 @@
+{"date":"2024-05-22T10:03:53.311Z","courseId":"17","assignment":"AP-Spring03-CA6","trace":{"version":156,"content":"#include <iostream>\n#include <fstream>\n\nint main(int argc , char* argv[])\n{\n    fstream file1 ()\n}","filename":"/home/rayan/Desktop/AP-FinalPraject/test.cpp","identifier":"Text Change","lineCount":7,"languageId":"cpp"},"failed":false}

@@ -1,0 +1,1 @@
+{"date":"2024-05-22T09:50:46.403Z","courseId":"17","assignment":"AP-Spring03-CA6","trace":{"version":82,"content":"#include \"requarment.hpp\"\n\nclass CSVReader\n{\n    public:\n\n\n    private:\n};","filename":"/home/rayan/Desktop/AP-FinalPraject/csvreader.hpp","identifier":"Text Change","lineCount":9,"languageId":"cpp"},"failed":false}
