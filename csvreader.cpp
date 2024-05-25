@@ -9,7 +9,7 @@ int CSVReader::numOfLines(char *file)
     {
         numOfLines++;
     }
-    return numOfLines;
+    return numOfLines - 1;
 }
 
 CSVReader::CSVReader(char *fileName)
@@ -17,37 +17,33 @@ CSVReader::CSVReader(char *fileName)
     ifstream inputFile(fileName);
     string line;
     string dataString;
-    vector<vector<string>> tempVector(numOfLines(fileName));
+    getline(inputFile , line);
     for (int i = 0; i < numOfLines(fileName); i++)
     {
+        vector<string> tempVector;
         getline(inputFile, line);
         stringstream streamLine(line);
-        while (getline(streamLine, dataString, ','))
+        while (getline(streamLine, dataString,COMMA))
         {
-            tempVector[i].push_back(dataString);
+            tempVector.push_back(dataString);
         }
+        data.push_back(tempVector);
     }
-    for (int i = 0 ; i < tempVector.size() ; i++)
-    {
-        for (int j = 0 ; j < tempVector[i].size() ; j++)
-        {
-            cout << tempVector[i][j] << " - ";
-        }
-        cout << endl;
-    }
-    data = tempVector;
 }
 
 void CSVReader::Print()
 {
     for (int i = 0; i < data.size(); i++)
     {
-        cout << "salam";
-        for (int j = 0; j > data[i].size(); j++)
+        for (int j = 0; j < data[i].size(); j++)
         {
-            cout << "khodafez";
             cout << data[i][j] << " - ";
         }
         cout << endl;
     }
+}
+
+string CSVReader::getObject(int line , int column)
+{
+    return data[line - 1][column - 1];
 }

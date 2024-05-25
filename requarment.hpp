@@ -5,3 +5,5 @@
 #include <sstream>
 
 using namespace std;
+
+extern char COMMA;

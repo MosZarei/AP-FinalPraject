@@ -1,12 +1,12 @@
 # CXX = g++
 # CXXFLAGS = -std=c++20
 
-# COO_DIR = cpp
-# HPP_DIR = hpp
+# # COO_DIR = cpp
+# # HPP_DIR = hpp
 # OBJ_DIR = obj
 
-# COO_SOURCES = #$(wildcard $(COO_DIR)/*.cpp)
-# HPP_SOURCES = #$(wildcard $(HPP_DIR)/*.cpp)
+# COO_SOURCES = csvreader.cpp users.cpp main.cpp requarment.cpp#$(wildcard $(COO_DIR)/*.cpp) 
+# HPP_SOURCES = csvreader.hpp users.hpp requarment.hpp#$(wildcard $(HPP_DIR)/*.cpp)
 
 # COO_OBJECTS = $(patsubst $(COO_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(COO_SOURCES))
 # HPP_OBJECTS = $(patsubst $(HPP_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(HPP_SOURCES))
@@ -29,7 +29,7 @@
 
 CXX = g++
 CXXFLAGS = -std=c++20 
-SOURCES = csvreader.cpp users.cpp main.cpp
+SOURCES = csvreader.cpp users.cpp main.cpp requarment.cpp
 HEADERS = csvreader.hpp users.hpp requarment.hpp
 OBJECTS = $(SOURCES:.cpp=.o) 
 TARGET = utms.out 

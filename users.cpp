@@ -1,11 +1,12 @@
 #include "users.hpp"
 
-Users::Users(string userName , string userPass)
+Users::Users(string userName, string userPass, string userMajor)
 {
-    if (userName == "" || userPass == "")
+    if (userName == "" || userPass == "" || userMajor == "")
     {
-        //handling exception
+        // handling exception
     }
     name = userName;
     password = userPass;
+    majorID = userMajor;
 }
