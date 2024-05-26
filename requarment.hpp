@@ -7,3 +7,4 @@
 using namespace std;
 
 extern char COMMA;
+extern int numOfLines(char *file);

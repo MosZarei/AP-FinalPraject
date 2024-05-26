@@ -6,7 +6,7 @@ public:
     CSVReader(char *fileName);
     void Print();
     string getObject(int line , int column);
-    int numOfLines(char* file);
+    //string getSpecificLine(int lineNumber);
 
 private:
     vector<vector<string>> data;
