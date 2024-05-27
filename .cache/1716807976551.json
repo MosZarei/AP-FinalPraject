@@ -1,0 +1,1 @@
+{"date":"2024-05-27T11:06:15.151Z","courseId":"17","assignment":"AP-Spring03-CA6","trace":{"version":102,"content":"#include \"users.hpp\"\nclass Professor : public Users\n{\npublic:\n    Professor(string )\nprivate:\n};","filename":"/home/rayan/Desktop/clone/AP-FinalPraject/professor.hpp","identifier":"Text Change","lineCount":7,"languageId":"cpp"},"failed":false}

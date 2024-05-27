@@ -1,7 +1,6 @@
 #include "student.hpp"
-#include "csvreader.hpp"
 
-Student::Student(string studentName, string studentPass, string studentMajor, string studentID, string studentSemester)
+Student::Student(string studentID, string studentName, string studentMajor, string studentSemester, string studentPass)
     : Users(studentName, studentPass, studentMajor)
 {
     if (studentID == "" || studentSemester == "")
@@ -9,10 +8,10 @@ Student::Student(string studentName, string studentPass, string studentMajor, st
         // handling exception
     }
     sID = studentID;
-    semester = studentSemester;
+    sSemester = studentSemester;
 }
 
-void Student::makeStudentsList(char* studentsCSV)
-{
-    CSVReader studentsFile(studentsCSV);
-}
+// void Student::makeStudentsList(char* studentsCSV)
+// {
+//     CSVReader studentsFile(studentsCSV);
+// }

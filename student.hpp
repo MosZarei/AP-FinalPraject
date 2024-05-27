@@ -1,12 +1,15 @@
+#pragma once
 #include "users.hpp"
 class Student : public Users
 {
 public:
-    Student(string studentName, string studentPass, string studentMajor, string studentID, string studentSemester);
+    Student(string studentID, string studentName, string studentMajor, string studentSemester, string studentPass);
     vector<Student *> students;
+    string getID() { return sID; }
+    string getSemester() { return sSemester; }
 
 private:
     string sID;
-    string semester;
-    void makeStudentsList(char* studentsCSV);
+    string sSemester;
+    // void makeStudentsList(char* studentsCSV);
 };

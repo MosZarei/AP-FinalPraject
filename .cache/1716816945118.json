@@ -1,0 +1,1 @@
+{"date":"2024-05-27T13:35:44.141Z","courseId":"17","assignment":"AP-Spring03-CA6","trace":{"version":70,"content":"#include \"requarment.hpp\"\n\nclass Major\n{\n    public :\n    Mojor(string majorID , string )\n}","filename":"/home/rayan/Desktop/clone/AP-FinalPraject/major.hpp","identifier":"Text Change","lineCount":7,"languageId":"cpp"},"failed":false}
