@@ -5,6 +5,7 @@ Main::Main(char *majorsCSV, char *studentsCSV, char *coursesCSV, char *professor
     makeStudentList(studentsCSV);
     makeProfessorList(professorsCSV);
     makeCourseList(coursesCSV);
+    makeMajorList(majorsCSV);
 }
 
 void Main::makeStudentList(char *studentsCSV)
@@ -40,18 +41,42 @@ void Main::makeCourseList(char *coursesCSV)
     }
 }
 
-void Main::makeMajorList(char* majorsCSV)
+void Main::makeMajorList(char *majorsCSV)
 {
     CSVReader majorsFile(majorsCSV);
-    for (int i = 1 ; i <= numOfLines(majorsCSV) ; i++)
+    for (int i = 1; i <= numOfLines(majorsCSV); i++)
     {
-        Major *newMajor = new Major(majorsFile.getObject(i , 1) , majorsFile.getObject(i , 2));
+        Major *newMajor = new Major(majorsFile.getObject(i, 1), majorsFile.getObject(i, 2));
         majorList.push_back(newMajor);
     }
 }
 
-void Main::printData(int userNumber)
+void Main::runProgram()
 {
-    cout << professorList[userNumber]->getName() << " - "
-         << professorList[userNumber]->getPass() << endl;
+    string superCommand;
+    while (cin >> superCommand)
+    {
+        if (superCommand == "POST")
+        {
+            string commandType , separator;
+            cin >> commandType >> separator;
+            //cout << "POST COMMAND" << endl;
+        }
+        else if(superCommand == "GET")
+        {
+            cout << "GET COMMAND" << endl;
+        }
+        else if(superCommand == "PUT")
+        {
+            cout << "PUT COMMAND" << endl;
+        }
+        else if (superCommand == "DELETE")
+        {
+            cout << "DELETE COMMAND"<< endl;
+        }
+        else
+        {
+            cerr << "Bad Request" << endl;
+        }
+    }
 }

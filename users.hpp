@@ -13,4 +13,5 @@ private:
     string name;
     string password;
     string majorID;
+    LoginState userLogged = LOGGED_OUT;
 };

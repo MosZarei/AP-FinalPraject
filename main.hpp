@@ -10,7 +10,7 @@ class Main
 {
 public:
     Main(char *majorsCSV, char *studentsCSV, char *coursesCSV, char *professorsCSV);
-    void printData(int userNumber);
+    void runProgram();
 
 private:
     vector<Student *> studentsList;
