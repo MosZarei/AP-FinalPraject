@@ -5,6 +5,7 @@
 #include "professor.hpp"
 #include "course.hpp"
 #include "major.hpp"
+#include "post.hpp"
 
 class Main
 {
@@ -17,8 +18,11 @@ private:
     vector<Professor *> professorList;
     vector<Course *> courseList;
     vector<Major *> majorList;
+    vector <string> superCommandList = {"POST" , "GET" , "DELETE" , "PUT"};
     void makeStudentList(char *studentsCSV);
     void makeProfessorList(char *professorsCSV);
     void makeCourseList(char *coursesCSV);
     void makeMajorList(char* majorsCSV);
+    void GetInput();
+    void CheckSuperCommand(string superCommand);
 };

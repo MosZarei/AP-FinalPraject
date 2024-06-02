@@ -51,32 +51,79 @@ void Main::makeMajorList(char *majorsCSV)
     }
 }
 
-void Main::runProgram()
+void Main::CheckSuperCommand(string superCommand)
 {
-    string superCommand;
-    while (cin >> superCommand)
+    for (int i = 0 ; i < superCommandList.size() ; i++)
     {
-        if (superCommand == "POST")
+        if (superCommand != superCommandList[i])
         {
-            string commandType , separator;
-            cin >> commandType >> separator;
-            //cout << "POST COMMAND" << endl;
-        }
-        else if(superCommand == "GET")
-        {
-            cout << "GET COMMAND" << endl;
-        }
-        else if(superCommand == "PUT")
-        {
-            cout << "PUT COMMAND" << endl;
-        }
-        else if (superCommand == "DELETE")
-        {
-            cout << "DELETE COMMAND"<< endl;
-        }
-        else
-        {
-            cerr << "Bad Request" << endl;
+            throw (/*error handler class*/);
         }
     }
+}
+
+void Main::GetInput()
+{
+    string superCommand, subCommand, commandArguments;
+    char seprator;
+    cin >> superCommand >> subCommand >> seprator;
+    getline(cin, commandArguments);
+    if (superCommand == "POST")
+    {
+        // Post post;
+        // post.RunCommand();
+        // string commandType , separator;
+        // cin >> commandType >> separator;
+        // //cout << "POST COMMAND" << endl;
+        // cout << commandType << "-" << separator << endl;
+    }
+    else if (superCommand == "GET")
+    {
+        cout << "GET COMMAND" << endl;
+    }
+    else if (superCommand == "PUT")
+    {
+        cout << "PUT COMMAND" << endl;
+    }
+    else if (superCommand == "DELETE")
+    {
+        cout << "DELETE COMMAND" << endl;
+    }
+    // cin >> superCommand >> subCommand >> seprator;
+}
+
+void Main::runProgram()
+{
+    while (true)
+    {
+    }
+    // string superCommand;
+    // while (cin >> superCommand)
+    // {
+    //     if (superCommand == "POST")
+    //     {
+    //         Post post;
+    //         post.RunCommand();
+    //         // string commandType , separator;
+    //         // cin >> commandType >> separator;
+    //         // //cout << "POST COMMAND" << endl;
+    //         // cout << commandType << "-" << separator << endl;
+    //     }
+    //     else if(superCommand == "GET")
+    //     {
+    //         cout << "GET COMMAND" << endl;
+    //     }
+    //     else if(superCommand == "PUT")
+    //     {
+    //         cout << "PUT COMMAND" << endl;
+    //     }
+    //     else if (superCommand == "DELETE")
+    //     {
+    //         cout << "DELETE COMMAND"<< endl;
+    //     }
+    //     else
+    //     {
+    //         cerr << "Bad Request" << endl;
+    //     }
+    // }
 }
