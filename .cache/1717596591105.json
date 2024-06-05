@@ -1,0 +1,1 @@
+{"date":"2024-06-05T14:09:49.459Z","courseId":"17","assignment":"AP-Spring03-CA6","trace":{"version":100,"content":"#include \"requarment.hpp\"\n#include \"errors.hpp\"\n\nclass SuperCommand\n{\npublic:\nprivate:\n};","filename":"/home/rayan/Desktop/clone/AP-FinalPraject/SuperCommand.hpp","identifier":"Text Change","lineCount":8,"languageId":"cpp"},"failed":false}

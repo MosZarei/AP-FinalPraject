@@ -6,6 +6,7 @@
 #include "course.hpp"
 #include "major.hpp"
 #include "post.hpp"
+#include "errors.hpp"
 
 class Main
 {

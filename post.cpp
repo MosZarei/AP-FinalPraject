@@ -1,30 +1,35 @@
 #include "post.hpp"
 
-Post ::Post()
+Post ::Post(string inputSubCommand, string inputArguments)
 {
-    postSubCommands = {"login", "logout", "post", "connect",
-                       "course_offer", "my_courses"};
+    CheckSubCommand(inputSubCommand);
+    subCommand = inputSubCommand;
+    arguments = inputArguments;
 }
 
-bool Post ::CheckSubCommand(string subCommand)
+void Post::CheckSubCommand(string subCommand)
 {
+    int counter = 0;
     for (int i = 0; i < postSubCommands.size(); i++)
     {
-        if (subCommand == postSubCommands[i])
+        if (subCommand != postSubCommands[i])
         {
-            return true;
+            counter++;
         }
     }
-    return false;
-}
-
-void Post::RunCommand()
-{
-    //cout << "kos" << endl;
-    string subCommand, seprator;
-    cin >> subCommand >> seprator;
-    if (!CheckSubCommand(subCommand) || seprator != "?")
+    if (counter == postSubCommands.size())
     {
-        cerr << "Not Found" << endl;
+        throw ErrorHandler(2);
     }
 }
+
+// void Post::RunCommand()
+// {
+//     // cout << "kos" << endl;
+//     string subCommand, seprator;
+//     cin >> subCommand >> seprator;
+//     if (!CheckSubCommand(subCommand) || seprator != "?")
+//     {
+//         cerr << "Not Found" << endl;
+//     }
+// }

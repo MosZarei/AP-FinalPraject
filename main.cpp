@@ -53,12 +53,25 @@ void Main::makeMajorList(char *majorsCSV)
 
 void Main::CheckSuperCommand(string superCommand)
 {
+    int counter = 0;
     for (int i = 0 ; i < superCommandList.size() ; i++)
     {
         if (superCommand != superCommandList[i])
         {
-            throw (/*error handler class*/);
+            counter ++;
         }
+    }
+    if (counter == superCommandList.size())
+    {
+        throw ErrorHandler(3);
+    }
+}
+
+void CheckSeprator(char seprator)
+{
+    if (seprator != '?')
+    {
+        throw ErrorHandler(3);
     }
 }
 
@@ -68,34 +81,23 @@ void Main::GetInput()
     char seprator;
     cin >> superCommand >> subCommand >> seprator;
     getline(cin, commandArguments);
-    if (superCommand == "POST")
-    {
-        // Post post;
-        // post.RunCommand();
-        // string commandType , separator;
-        // cin >> commandType >> separator;
-        // //cout << "POST COMMAND" << endl;
-        // cout << commandType << "-" << separator << endl;
-    }
-    else if (superCommand == "GET")
-    {
-        cout << "GET COMMAND" << endl;
-    }
-    else if (superCommand == "PUT")
-    {
-        cout << "PUT COMMAND" << endl;
-    }
-    else if (superCommand == "DELETE")
-    {
-        cout << "DELETE COMMAND" << endl;
-    }
-    // cin >> superCommand >> subCommand >> seprator;
+    // try
+    // {
+    //     CheckSuperCommand(superCommand);
+    //     CheckSeprator(seprator);
+    //     Post postCommnd(subCommand , commandArguments);
+    // }
+    // catch (ErrorHandler &error)
+    // {
+    //     error.GetErrorMassage();
+    // }
 }
 
 void Main::runProgram()
 {
     while (true)
     {
+        GetInput();
     }
     // string superCommand;
     // while (cin >> superCommand)

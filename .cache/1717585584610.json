@@ -1,0 +1,1 @@
+{"date":"2024-06-05T11:06:18.564Z","courseId":"17","assignment":"AP-Spring03-CA6","trace":{"version":63,"content":"#include \"errors.hpp\"\n\nErrorHandler::ErrorHandler(int errorNum)\n{\n    switch\n}","filename":"/home/rayan/Desktop/clone/AP-FinalPraject/errors.cpp","identifier":"Text Change","lineCount":6,"languageId":"cpp"},"failed":false}

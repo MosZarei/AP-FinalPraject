@@ -1,11 +1,16 @@
+#pragma once
 #include "requarment.hpp"
+#include "errors.hpp"
 
 class Post
 {
 public:
-    Post();
+    Post(string subCommand , string arguments);
     void RunCommand();
-    bool CheckSubCommand(string subCommand);
+    void CheckSubCommand(string subCommand);
 private:
-    vector<string> postSubCommands;
+    vector<string> postSubCommands = {"login", "logout", "post", "connect",
+                                      "course_offer", "my_courses"};
+    string subCommand;
+    string arguments;
 };

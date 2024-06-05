@@ -1,7 +1,7 @@
 #include "requarment.hpp"
 
 char COMMA = ',';
-char SEPRATOR = '?';
+string SEPRATOR = "?";
 
 int numOfLines(char *file)
 {

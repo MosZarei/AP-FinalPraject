@@ -1,0 +1,1 @@
+{"date":"2024-06-05T11:05:32.342Z","courseId":"17","assignment":"AP-Spring03-CA6","trace":{"content":"#include \"requarment.hpp\"\n\nclass ErrorHandler\n{\npublic:\n    ErrorHandler(int errorNum);\nprivate:\n};\n","filename":"/home/rayan/Desktop/clone/AP-FinalPraject/errors.hpp","identifier":"Save Document","languageId":"cpp","version":88,"lineCount":9},"failed":false}
