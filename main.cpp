@@ -51,81 +51,122 @@ void Main::makeMajorList(char *majorsCSV)
     }
 }
 
-void Main::CheckSuperCommand(string superCommand)
+bool Main::CheckSuperCommand(string superCommand)
 {
-    int counter = 0;
-    for (int i = 0 ; i < superCommandList.size() ; i++)
+    for (int i = 0; i < superCommandList.size(); i++)
     {
-        if (superCommand != superCommandList[i])
+        if (superCommand == superCommandList[i])
         {
-            counter ++;
+            return true;
         }
     }
-    if (counter == superCommandList.size())
-    {
-        throw ErrorHandler(3);
-    }
+    return false;
 }
 
-void CheckSeprator(char seprator)
+bool CheckSeprator(string seprator)
 {
-    if (seprator != '?')
+    if (seprator == SEPRATOR)
     {
-        throw ErrorHandler(3);
+        return true;
     }
+    return false;
 }
 
 void Main::GetInput()
 {
-    string superCommand, subCommand, commandArguments;
-    char seprator;
-    cin >> superCommand >> subCommand >> seprator;
-    getline(cin, commandArguments);
-    // try
-    // {
-    //     CheckSuperCommand(superCommand);
-    //     CheckSeprator(seprator);
-    //     Post postCommnd(subCommand , commandArguments);
-    // }
-    // catch (ErrorHandler &error)
-    // {
-    //     error.GetErrorMassage();
-    // }
+    vector<string> inputs;
+    string input, line;
+    getline(cin, line);
+    stringstream lineStream(line);
+    while (getline(lineStream, input, ' '))
+    {
+        inputs.push_back(input);
+    }
+    if (!CheckSuperCommand(inputs[0]) || !CheckSeprator(inputs[2]))
+    {
+        throw ErrorHandler(3);
+    }
+    else
+    {
+        for (int i = 0; i < inputs.size(); i++)
+        {
+            switch (i)
+            {
+            case 0:
+                superCommand = inputs[i];
+                break;
+            case 1:
+                subCommand = inputs[i];
+                break;
+            case 2:
+                seprator = inputs[i];
+                break;
+            }
+        }
+        if (inputs.size() > 3)
+        {
+            arguments = (inputs[3] + " ");
+            for (int i = 4; i < inputs.size(); i++)
+            {
+                arguments += (inputs[i] + " ");
+            }
+        }
+    }
+}
+
+void Main::SelectSubCommand()
+{
+    if (superCommand == "POST")
+    {
+        PostCommand command(subCommand , arguments);
+    }
+    else if (superCommand == "GET")
+    {
+        //GetCommand command(subCommand , argumenrs);
+    }
+    else if (superCommand == "PUT")
+    {
+        //PutCommand command(subCommand , argumenrs);
+    }
+    else if (superCommand == "DELETE")
+    {
+        //DeleteCommand command(subCommand , argumenrs);
+    }
+}
+
+bool Main::IsUser(string userID)
+{
+    //int check = 0;
+    for (int i = 0 ; i < studentsList.size() ; i++)
+    {
+        if (userID == studentsList[i]->getID())
+        {
+            return true;
+        }
+    }
+    for (int i = 0 ; i < professorList.size() ; i++)
+    {
+        if(userID == professorList[i]->getID())
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 void Main::runProgram()
 {
     while (true)
     {
-        GetInput();
+        try
+        {
+            GetInput();
+            SelectSubCommand();
+            //cout << superCommand << " - " << subCommand << " - " << seprator << " - " << arguments << endl;
+        }
+        catch (ErrorHandler &error)
+        {
+            error.GetErrorMassage();
+        }
     }
-    // string superCommand;
-    // while (cin >> superCommand)
-    // {
-    //     if (superCommand == "POST")
-    //     {
-    //         Post post;
-    //         post.RunCommand();
-    //         // string commandType , separator;
-    //         // cin >> commandType >> separator;
-    //         // //cout << "POST COMMAND" << endl;
-    //         // cout << commandType << "-" << separator << endl;
-    //     }
-    //     else if(superCommand == "GET")
-    //     {
-    //         cout << "GET COMMAND" << endl;
-    //     }
-    //     else if(superCommand == "PUT")
-    //     {
-    //         cout << "PUT COMMAND" << endl;
-    //     }
-    //     else if (superCommand == "DELETE")
-    //     {
-    //         cout << "DELETE COMMAND"<< endl;
-    //     }
-    //     else
-    //     {
-    //         cerr << "Bad Request" << endl;
-    //     }
-    // }
 }
