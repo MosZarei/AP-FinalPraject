@@ -114,39 +114,41 @@ void Main::GetInput()
     }
 }
 
-void Main::SelectSubCommand()
-{
-    if (superCommand == "POST")
-    {
-        PostCommand command(subCommand , arguments);
-    }
-    else if (superCommand == "GET")
-    {
-        //GetCommand command(subCommand , argumenrs);
-    }
-    else if (superCommand == "PUT")
-    {
-        //PutCommand command(subCommand , argumenrs);
-    }
-    else if (superCommand == "DELETE")
-    {
-        //DeleteCommand command(subCommand , argumenrs);
-    }
-}
+// void Main::SelectSubCommand()
+// {
+//     cout << studentsList.size() << endl;
+//     cout << professorList.size() << endl;
+//     if (superCommand == "POST")
+//     {
+//         PostCommand command(subCommand, arguments);
+//         command.RunCommand();
+//     }
+//     else if (superCommand == "GET")
+//     {
+//         // GetCommand command(subCommand , argumenrs);
+//     }
+//     else if (superCommand == "PUT")
+//     {
+//         // PutCommand command(subCommand , argumenrs);
+//     }
+//     else if (superCommand == "DELETE")
+//     {
+//         // DeleteCommand command(subCommand , argumenrs);
+//     }
+// }
 
-bool Main::IsUser(string userID)
+bool Main ::IsUser(string userID)
 {
-    //int check = 0;
-    for (int i = 0 ; i < studentsList.size() ; i++)
+    for (int i = 0; i < studentsList.size(); i++)
     {
         if (userID == studentsList[i]->getID())
         {
             return true;
         }
     }
-    for (int i = 0 ; i < professorList.size() ; i++)
+    for (int i = 0; i < professorList.size(); i++)
     {
-        if(userID == professorList[i]->getID())
+        if (userID == professorList[i]->getID())
         {
             return true;
         }
@@ -154,19 +156,87 @@ bool Main::IsUser(string userID)
     return false;
 }
 
-void Main::runProgram()
+bool Main::IsUserPasswordMatch(string userID, string userPass)
 {
-    while (true)
+    int counter = 0;
+    for (counter; counter < studentsList.size(); counter++)
     {
-        try
+        if (userID == studentsList[counter]->getID())
         {
-            GetInput();
-            SelectSubCommand();
-            //cout << superCommand << " - " << subCommand << " - " << seprator << " - " << arguments << endl;
-        }
-        catch (ErrorHandler &error)
-        {
-            error.GetErrorMassage();
+            break;
         }
     }
+    if (studentsList[counter]->MatchPassword(userPass))
+    {
+        return true;
+    }
+    return false;
 }
+
+// bool Main::IsUserLoggedIn()
+//{
+//  int counter = 0;
+//  for (counter; counter < studentsList.size(); counter++)
+//  {
+//      if (userID == studentsList[counter]->getID())
+//      {
+//          break;
+//      }
+//  }
+//  if (studentsList[counter]->LoggedIn())
+//  {
+//      return true;
+//  }
+//  return false;
+//}
+
+void Main::MakeUserLoggedIn()
+{
+    // int studentCounter = 0;
+    // int proCounter = 0;
+    // bool isStudent;
+    // bool isProfessor;
+    // for (studentCounter; studentCounter < studentsList.size(); studentCounter++)
+    // {
+    //     if (userID == studentsList[studentCounter]->getID())
+    //     {
+    //         isStudent = true;
+    //         break;
+    //     }
+    // }
+    // for (proCounter; proCounter < professorList.size(); proCounter++)
+    // {
+    //     if (userID == professorList[proCounter]->getID())
+    //     {
+    //         isProfessor = true;
+    //         break;
+    //     }
+    // }
+    // if (isStudent)
+    // {
+    //     studentsList[studentCounter]->MakeLoggedIn();
+    // }
+    // if (isProfessor)
+    // {
+    //     professorList[proCounter]->MakeLoggedIn();
+    // }
+    isUserLoggedIn = true;
+    cout << "OK" << endl;
+}
+
+// void Main::runProgram()
+// {
+//     while (true)
+//     {
+//         try
+//         {
+//             GetInput();
+//             SelectSubCommand();
+//             // cout << superCommand << " - " << subCommand << " - " << seprator << " - " << arguments << endl;
+//         }
+//         catch (ErrorHandler &error)
+//         {
+//             error.GetErrorMassage();
+//         }
+//     }
+// }

@@ -8,7 +8,9 @@ public:
     string getName() { return name; }
     string getPass() { return password; }
     string getMajor() { return majorID; }
-
+    bool MatchPassword(string userPass);
+    bool LoggedIn();
+    void MakeLoggedIn();
 private:
     string name;
     string password;

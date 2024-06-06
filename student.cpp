@@ -10,8 +10,3 @@ Student::Student(string studentID, string studentName, string studentMajor, stri
     sID = studentID;
     sSemester = studentSemester;
 }
-
-// void Student::makeStudentsList(char* studentsCSV)
-// {
-//     CSVReader studentsFile(studentsCSV);
-// }

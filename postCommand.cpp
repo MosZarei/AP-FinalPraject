@@ -1,6 +1,7 @@
-#include "postCommand.hpp"
+#include "main.hpp"
 
-PostCommand::PostCommand(string inputSubCommand, string inputArguments)
+PostCommand::PostCommand(char *majorsCSV, char *studentsCSV, char *coursesCSV, char *professorsCSV , string inputSubCommand, string inputArguments)
+            :Main(majorsCSV , studentsCSV , coursesCSV , professorsCSV)
 {
     if (!CheckSubCommand(inputSubCommand))
     {
@@ -68,8 +69,17 @@ void PostCommand::LoginFunc(vector<string> inputArgs)
         inputID = inputArgs[3];
         inputPassword = inputArgs[1];
     }
-    if(!IsUser(inputID))
+    if (!IsUser(inputID))
     {
         throw ErrorHandler(2);
     }
+    if (!IsUserPasswordMatch(inputID , inputPassword))
+    {
+        throw ErrorHandler(4);
+    }
+    if (isUserLoggedIn)
+    {
+        throw ErrorHandler(4);
+    }
+    MakeUserLoggedIn();
 }

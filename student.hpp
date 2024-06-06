@@ -11,5 +11,4 @@ public:
 private:
     string sID;
     string sSemester;
-    // void makeStudentsList(char* studentsCSV);
 };
