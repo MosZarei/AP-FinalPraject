@@ -1,242 +1,72 @@
 #include "main.hpp"
 
-Main::Main(char *majorsCSV, char *studentsCSV, char *coursesCSV, char *professorsCSV)
+Main::Main(char *inputCSV1, char *inputCSV2, char *inputCSV3, char *inputCSV4)
 {
-    makeStudentList(studentsCSV);
-    makeProfessorList(professorsCSV);
-    makeCourseList(coursesCSV);
-    makeMajorList(majorsCSV);
+    majorCSVFile = inputCSV1;
+    studentCSVFile = inputCSV2;
+    courseCSVFile = inputCSV3;
+    professorCSVFile = inputCSV4;
 }
 
-void Main::makeStudentList(char *studentsCSV)
+void Main::Run()
 {
-    CSVReader studentsFile(studentsCSV);
-    for (int i = 1; i <= numOfLines(studentsCSV); i++)
+    while (true)
     {
-        Student *newStudent = new Student(studentsFile.getObject(i, 1), studentsFile.getObject(i, 2), studentsFile.getObject(i, 3),
-                                          studentsFile.getObject(i, 4), studentsFile.getObject(i, 5));
-        studentsList.push_back(newStudent);
-    }
-}
-
-void Main::makeProfessorList(char *professorsCSV)
-{
-    CSVReader professorsFile(professorsCSV);
-    for (int i = 1; i <= numOfLines(professorsCSV); i++)
-    {
-        Professor *newProfessor = new Professor(professorsFile.getObject(i, 1), professorsFile.getObject(i, 2), professorsFile.getObject(i, 3),
-                                                professorsFile.getObject(i, 4), professorsFile.getObject(i, 5));
-        professorList.push_back(newProfessor);
-    }
-}
-
-void Main::makeCourseList(char *coursesCSV)
-{
-    CSVReader coursesFile(coursesCSV);
-    for (int i = 1; i <= numOfLines(coursesCSV); i++)
-    {
-        Course *newCourse = new Course(coursesFile.getObject(i, 1), coursesFile.getObject(i, 2), coursesFile.getObject(i, 3),
-                                       coursesFile.getObject(i, 4), coursesFile.getObject(i, 5));
-        courseList.push_back(newCourse);
-    }
-}
-
-void Main::makeMajorList(char *majorsCSV)
-{
-    CSVReader majorsFile(majorsCSV);
-    for (int i = 1; i <= numOfLines(majorsCSV); i++)
-    {
-        Major *newMajor = new Major(majorsFile.getObject(i, 1), majorsFile.getObject(i, 2));
-        majorList.push_back(newMajor);
-    }
-}
-
-bool Main::CheckSuperCommand(string superCommand)
-{
-    for (int i = 0; i < superCommandList.size(); i++)
-    {
-        if (superCommand == superCommandList[i])
+        try
         {
-            return true;
+            SuperCommand command(majorCSVFile, studentCSVFile, courseCSVFile, professorCSVFile);
+            command.GetInput();
+            SelectSubCommand(majorCSVFile, studentCSVFile, courseCSVFile, professorCSVFile,
+                             command.GetSuperCommand(), command.GetSubCommand(), command.GetArguments());
         }
-    }
-    return false;
-}
-
-bool CheckSeprator(string seprator)
-{
-    if (seprator == SEPRATOR)
-    {
-        return true;
-    }
-    return false;
-}
-
-void Main::GetInput()
-{
-    vector<string> inputs;
-    string input, line;
-    getline(cin, line);
-    stringstream lineStream(line);
-    while (getline(lineStream, input, ' '))
-    {
-        inputs.push_back(input);
-    }
-    if (!CheckSuperCommand(inputs[0]) || !CheckSeprator(inputs[2]))
-    {
-        throw ErrorHandler(3);
-    }
-    else
-    {
-        for (int i = 0; i < inputs.size(); i++)
+        catch (ErrorHandler &error)
         {
-            switch (i)
-            {
-            case 0:
-                superCommand = inputs[i];
-                break;
-            case 1:
-                subCommand = inputs[i];
-                break;
-            case 2:
-                seprator = inputs[i];
-                break;
-            }
-        }
-        if (inputs.size() > 3)
-        {
-            arguments = (inputs[3] + " ");
-            for (int i = 4; i < inputs.size(); i++)
-            {
-                arguments += (inputs[i] + " ");
-            }
+            error.GetErrorMassage();
         }
     }
 }
 
-// void Main::SelectSubCommand()
-// {
-//     cout << studentsList.size() << endl;
-//     cout << professorList.size() << endl;
-//     if (superCommand == "POST")
-//     {
-//         PostCommand command(subCommand, arguments);
-//         command.RunCommand();
-//     }
-//     else if (superCommand == "GET")
-//     {
-//         // GetCommand command(subCommand , argumenrs);
-//     }
-//     else if (superCommand == "PUT")
-//     {
-//         // PutCommand command(subCommand , argumenrs);
-//     }
-//     else if (superCommand == "DELETE")
-//     {
-//         // DeleteCommand command(subCommand , argumenrs);
-//     }
-// }
-
-bool Main ::IsUser(string userID)
+void Main::SelectSubCommand(char *majorsCSV, char *studentsCSV, char *coursesCSV, char *professorsCSV,
+                            string inputSuperCommand, string inputSubCommand, string inputArguments)
 {
-    for (int i = 0; i < studentsList.size(); i++)
+    if (inputSuperCommand == "POST")
     {
-        if (userID == studentsList[i]->getID())
-        {
-            return true;
-        }
+        PostCommand command(majorsCSV, studentsCSV, coursesCSV, professorsCSV, inputSubCommand, inputArguments);
+        command.RunCommand();
+        MakeLoggedProgress(inputSubCommand);
     }
-    for (int i = 0; i < professorList.size(); i++)
+    else if (inputSuperCommand == "GET")
     {
-        if (userID == professorList[i]->getID())
-        {
-            return true;
-        }
+        // GetCommand command(subCommand , argumenrs);
     }
-    return false;
+    else if (inputSuperCommand == "PUT")
+    {
+        // PutCommand command(subCommand , argumenrs);
+    }
+    else if (inputSuperCommand == "DELETE")
+    {
+        // DeleteCommand command(subCommand , argumenrs);
+    }
 }
 
-bool Main::IsUserPasswordMatch(string userID, string userPass)
+void Main::MakeLoggedProgress(string subCommand)
 {
-    int counter = 0;
-    for (counter; counter < studentsList.size(); counter++)
+    if (subCommand == "login" && loginState == LOGGED_OUT)
     {
-        if (userID == studentsList[counter]->getID())
-        {
-            break;
-        }
+        loginState = LOGGED_IN;
+        cout << "OK" << endl;
     }
-    if (studentsList[counter]->MatchPassword(userPass))
+    else if (subCommand == "login" && loginState == LOGGED_IN)
     {
-        return true;
+        throw ErrorHandler(4);
     }
-    return false;
+    if (subCommand == "logout" && loginState == LOGGED_IN)
+    {
+        loginState = LOGGED_OUT;
+        cout << "OK" << endl;
+    }
+    else if (subCommand == "logout" && loginState == LOGGED_OUT)
+    {
+        throw ErrorHandler(4);
+    }
 }
-
-// bool Main::IsUserLoggedIn()
-//{
-//  int counter = 0;
-//  for (counter; counter < studentsList.size(); counter++)
-//  {
-//      if (userID == studentsList[counter]->getID())
-//      {
-//          break;
-//      }
-//  }
-//  if (studentsList[counter]->LoggedIn())
-//  {
-//      return true;
-//  }
-//  return false;
-//}
-
-void Main::MakeUserLoggedIn()
-{
-    // int studentCounter = 0;
-    // int proCounter = 0;
-    // bool isStudent;
-    // bool isProfessor;
-    // for (studentCounter; studentCounter < studentsList.size(); studentCounter++)
-    // {
-    //     if (userID == studentsList[studentCounter]->getID())
-    //     {
-    //         isStudent = true;
-    //         break;
-    //     }
-    // }
-    // for (proCounter; proCounter < professorList.size(); proCounter++)
-    // {
-    //     if (userID == professorList[proCounter]->getID())
-    //     {
-    //         isProfessor = true;
-    //         break;
-    //     }
-    // }
-    // if (isStudent)
-    // {
-    //     studentsList[studentCounter]->MakeLoggedIn();
-    // }
-    // if (isProfessor)
-    // {
-    //     professorList[proCounter]->MakeLoggedIn();
-    // }
-    isUserLoggedIn = true;
-    cout << "OK" << endl;
-}
-
-// void Main::runProgram()
-// {
-//     while (true)
-//     {
-//         try
-//         {
-//             GetInput();
-//             SelectSubCommand();
-//             // cout << superCommand << " - " << subCommand << " - " << seprator << " - " << arguments << endl;
-//         }
-//         catch (ErrorHandler &error)
-//         {
-//             error.GetErrorMassage();
-//         }
-//     }
-// }

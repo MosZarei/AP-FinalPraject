@@ -9,11 +9,6 @@ public:
     string getPass() { return password; }
     string getMajor() { return majorID; }
     bool MatchPassword(string userPass);
-    bool LoggedIn();
-    void MakeLoggedIn();
 private:
-    string name;
-    string password;
-    string majorID;
-    LoginState userLogged = LOGGED_OUT;
+    string name , password , majorID;
 };

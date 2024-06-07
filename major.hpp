@@ -7,6 +7,5 @@ public:
     Major(string majorID, string majorName);
 
 private:
-    string mID;
-    string mName;
+    string mID , mName;
 };

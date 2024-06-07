@@ -1,7 +1,7 @@
-#include "main.hpp"
+#include "superCommand.hpp"
 
-PostCommand::PostCommand(char *majorsCSV, char *studentsCSV, char *coursesCSV, char *professorsCSV , string inputSubCommand, string inputArguments)
-            :Main(majorsCSV , studentsCSV , coursesCSV , professorsCSV)
+PostCommand::PostCommand(char *majorsCSV, char *studentsCSV, char *coursesCSV, char *professorsCSV, string inputSubCommand, string inputArguments)
+    : SuperCommand(majorsCSV, studentsCSV, coursesCSV, professorsCSV)
 {
     if (!CheckSubCommand(inputSubCommand))
     {
@@ -36,7 +36,7 @@ void PostCommand::RunCommand()
     }
     else if (subCommand == "logout")
     {
-        // logout func
+        LogoutFunc(arguments);
     }
     else if (subCommand == "post")
     {
@@ -69,17 +69,17 @@ void PostCommand::LoginFunc(vector<string> inputArgs)
         inputID = inputArgs[3];
         inputPassword = inputArgs[1];
     }
-    if (!IsUser(inputID))
+    CheckLoginCondditions(inputID, inputPassword);
+}
+
+void PostCommand::LogoutFunc(vector<string> inputArgs)
+{
+    if (inputArgs.size() != 0)
     {
-        throw ErrorHandler(2);
+        for (int i = 0 ; i < inputArgs.size() ; i++)
+        {
+            cout << "-" << inputArgs[i];
+        }
+        throw ErrorHandler(3);
     }
-    if (!IsUserPasswordMatch(inputID , inputPassword))
-    {
-        throw ErrorHandler(4);
-    }
-    if (isUserLoggedIn)
-    {
-        throw ErrorHandler(4);
-    }
-    MakeUserLoggedIn();
 }

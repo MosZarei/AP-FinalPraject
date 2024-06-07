@@ -9,6 +9,5 @@ public:
     string getSemester() { return sSemester; }
 
 private:
-    string sID;
-    string sSemester;
+    string sID , sSemester;
 };

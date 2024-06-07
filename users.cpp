@@ -19,18 +19,3 @@ bool Users::MatchPassword(string userPass)
     }
     return false;
 }
-
-bool Users::LoggedIn()
-{
-    if (userLogged == LOGGED_IN)
-    {
-        return true;
-    }
-    return false;
-}
-
-void Users::MakeLoggedIn()
-{
-    userLogged = LOGGED_IN;
-    cout << "OK" << endl;
-}

@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++20 
-SOURCES = csvreader.cpp users.cpp main.cpp requarment.cpp run.cpp student.cpp professor.cpp course.cpp major.cpp errors.cpp postCommand.cpp
-HEADERS = csvreader.hpp users.hpp requarment.hpp main.hpp student.hpp professor.hpp course.hpp major.hpp errors.hpp
+SOURCES = requarment.cpp csvreader.cpp errors.cpp users.cpp student.cpp professor.cpp course.cpp major.cpp superCommand.cpp postCommand.cpp main.cpp run.cpp
+HEADERS = requarment.hpp csvreader.hpp errors.hpp users.hpp student.hpp professor.hpp course.hpp major.hpp superCommand.hpp main.hpp
 OBJECTS = $(SOURCES:.cpp=.o) 
 TARGET = utms.out 
 

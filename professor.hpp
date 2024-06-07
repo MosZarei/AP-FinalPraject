@@ -9,6 +9,5 @@ public:
     string getPosition() { return pPosition; }
 
 private:
-    string pID;
-    string pPosition;
+    string pID  , pPosition;
 };
