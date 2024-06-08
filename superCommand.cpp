@@ -1,21 +1,23 @@
 #include "superCommand.hpp"
 
-SuperCommand::SuperCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
-                           vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector)
+SuperCommand::SuperCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector, vector<Course *> inputCourseVector,
+                           vector<Professor *> inputProfessorVector, Users *inputDefalutUser)
 {
     tempMajorList = inputMajorVector;
     tempStudentsList = inputStudentVector;
     tempCourseList = inputCourseVector;
     tempProfessorList = inputProfessorVector;
+    tempDefaultUser = inputDefalutUser;
 }
 
-void SuperCommand::Update(vector<Major *> &inputMajorVector, vector<Student *> &inputStudentVector,
-                           vector<Course *> &inputCourseVector, vector<Professor *> &inputProfessorVector)
+void SuperCommand::Update(vector<Major *> &inputMajorVector, vector<Student *> &inputStudentVector, vector<Course *> &inputCourseVector,
+                          vector<Professor *> &inputProfessorVector, Users *&inputDefalutUser)
 {
     inputMajorVector = tempMajorList;
     inputStudentVector = tempStudentsList;
     inputCourseVector = tempCourseList;
     inputProfessorVector = tempProfessorList;
+    inputDefalutUser = tempDefaultUser;
 }
 
 bool SuperCommand::CheckSuperCommand(string superCommand)
@@ -87,6 +89,7 @@ void SuperCommand::CheckLoginCondditions(string userID, string userPass)
     int proCounter = 0;
     bool isStd = false;
     bool isPro = false;
+    bool isDefaultUser = false;
     for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
     {
         if (userID == tempStudentsList[stdCounter]->getID())
@@ -103,13 +106,21 @@ void SuperCommand::CheckLoginCondditions(string userID, string userPass)
             break;
         }
     }
-    if (isStd || isPro)
+    if (userID == tempDefaultUser->getName())
+    {
+        isDefaultUser = true;
+    }
+    if (isStd || isPro || isDefaultUser)
     {
         if (isStd && !tempStudentsList[stdCounter]->MatchPassword(userPass))
         {
             throw ErrorHandler(4);
         }
         if (isPro && !tempProfessorList[proCounter]->MatchPassword(userPass))
+        {
+            throw ErrorHandler(4);
+        }
+        if (isDefaultUser && !tempDefaultUser->MatchPassword(userPass))
         {
             throw ErrorHandler(4);
         }

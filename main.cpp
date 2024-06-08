@@ -57,11 +57,10 @@ void Main::Run()
     {
         try
         {
-            SuperCommand command(majorList, studentsList, courseList, professorList);
+            SuperCommand command(majorList, studentsList, courseList, professorList, defaultUser);
             command.GetInput();
-            SelectSubCommand(/*majorCSVFile, studentCSVFile, courseCSVFile, professorCSVFile,*/
-                             command.GetSuperCommand(), command.GetSubCommand(), command.GetArguments());
-            command.Update(majorList, studentsList, courseList, professorList);
+            SelectSubCommand(command.GetSuperCommand(), command.GetSubCommand(), command.GetArguments());
+            command.Update(majorList, studentsList, courseList, professorList, defaultUser);
         }
         catch (ErrorHandler &error)
         {
@@ -70,19 +69,26 @@ void Main::Run()
     }
 }
 
-void Main::SelectSubCommand(/*char *majorsCSV, char *studentsCSV, char *coursesCSV, char *professorsCSV,*/
-                            string inputSuperCommand, string inputSubCommand, string inputArguments)
+void Main::SelectSubCommand(string inputSuperCommand, string inputSubCommand, string inputArguments)
 {
     if (inputSuperCommand == "POST")
     {
-        if (loginState == LOGGED_OUT && inputSubCommand != "login")
+        if ((loginState == LOGGED_OUT && inputSubCommand != "login") || (loginState == LOGGED_IN && inputSubCommand == "login"))
         {
             throw ErrorHandler(4);
         }
         else
         {
-            PostCommand command(majorList, studentsList, courseList, professorList, inputSubCommand, inputArguments);
+            PostCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged);
             command.RunCommand();
+            if (inputSubCommand == "login")
+            {
+                userWhoLogged = command.GetUserWhoLogged();
+            }
+            else if (inputSubCommand == "logout")
+            {
+                userWhoLogged = "";
+            }
             MakeLoggedProgress(inputSubCommand);
         }
     }
@@ -105,7 +111,7 @@ void Main::SelectSubCommand(/*char *majorsCSV, char *studentsCSV, char *coursesC
         }
         else
         {
-        // PutCommand command(subCommand , argumenrs);
+            // PutCommand command(subCommand , argumenrs);
         }
     }
     else if (inputSuperCommand == "DELETE")
@@ -116,7 +122,7 @@ void Main::SelectSubCommand(/*char *majorsCSV, char *studentsCSV, char *coursesC
         }
         else
         {
-        // DeleteCommand command(subCommand , argumenrs);
+            // DeleteCommand command(subCommand , argumenrs);
         }
     }
 }

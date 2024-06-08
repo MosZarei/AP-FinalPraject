@@ -5,6 +5,7 @@ class Users
 {
 public:
     Users(string userName, string userPass, string userMajor);
+    Users(string userName , string userPass);
     string getName() { return name; }
     string getPass() { return password; }
     string getMajor() { return majorID; }

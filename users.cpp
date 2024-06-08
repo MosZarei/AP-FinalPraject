@@ -11,6 +11,12 @@ Users::Users(string userName, string userPass, string userMajor)
     majorID = userMajor;
 }
 
+Users::Users(string userName , string userPass)
+{
+    name = userName;
+    password = userPass;
+}
+
 bool Users::MatchPassword(string userPass)
 {
     if (userPass == password)

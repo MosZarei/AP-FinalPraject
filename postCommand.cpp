@@ -1,8 +1,9 @@
 #include "superCommand.hpp"
 
 PostCommand::PostCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
-                         vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector, string inputSubCommand, string inputArguments)
-    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector)
+                         vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector,
+                         Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged)
+    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector , inputDefaultUser)
 {
     if (!CheckSubCommand(inputSubCommand))
     {
@@ -15,6 +16,7 @@ PostCommand::PostCommand(vector<Major *> inputMajorVector, vector<Student *> inp
     {
         arguments.push_back(temp);
     }
+    userWhoLogged = inputUserWhoLogged;
 }
 
 bool PostCommand::CheckSubCommand(string inputSubCommand)
@@ -71,6 +73,7 @@ void PostCommand::LoginFunc(vector<string> inputArgs)
         inputPassword = inputArgs[1];
     }
     CheckLoginCondditions(inputID, inputPassword);
+    userWhoLogged = inputID;
 }
 
 void PostCommand::LogoutFunc(vector<string> inputArgs)
