@@ -1,7 +1,8 @@
 #include "superCommand.hpp"
 
-PostCommand::PostCommand(char *majorsCSV, char *studentsCSV, char *coursesCSV, char *professorsCSV, string inputSubCommand, string inputArguments)
-    : SuperCommand(majorsCSV, studentsCSV, coursesCSV, professorsCSV)
+PostCommand::PostCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
+                         vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector, string inputSubCommand, string inputArguments)
+    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector)
 {
     if (!CheckSubCommand(inputSubCommand))
     {
@@ -76,7 +77,7 @@ void PostCommand::LogoutFunc(vector<string> inputArgs)
 {
     if (inputArgs.size() != 0)
     {
-        for (int i = 0 ; i < inputArgs.size() ; i++)
+        for (int i = 0; i < inputArgs.size(); i++)
         {
             cout << "-" << inputArgs[i];
         }

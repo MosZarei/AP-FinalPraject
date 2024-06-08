@@ -11,7 +11,10 @@
 class SuperCommand
 {
 public:
-    SuperCommand(char *majorsCSV, char *studentsCSV, char *coursesCSV, char *professorsCSV);
+    SuperCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
+                 vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector);
+    void Update(vector<Major *> &inputMajorVector, vector<Student *> &inputStudentVector,
+                vector<Course *> &inputCourseVector, vector<Professor *> &inputProfessorVector);
     string GetSuperCommand() { return superCommand; }
     string GetSubCommand() { return subCommand; }
     string GetArguments() { return arguments; }
@@ -19,23 +22,20 @@ public:
     void CheckLoginCondditions(string userID, string userPass);
 
 private:
-    vector<Student *> studentsList;
-    vector<Professor *> professorList;
-    vector<Course *> courseList;
-    vector<Major *> majorList;
+    vector<Student *> tempStudentsList;
+    vector<Professor *> tempProfessorList;
+    vector<Course *> tempCourseList;
+    vector<Major *> tempMajorList;
     vector<string> superCommandList = {"POST", "GET", "DELETE", "PUT"};
     string superCommand, subCommand, seprator, arguments = "";
-    void makeStudentList(char *studentsCSV);
-    void makeProfessorList(char *professorsCSV);
-    void makeCourseList(char *coursesCSV);
-    void makeMajorList(char *majorsCSV);
     bool CheckSuperCommand(string superCommand);
 };
 
 class PostCommand : public SuperCommand
 {
 public:
-    PostCommand(char *majorsCSV, char *studentsCSV, char *coursesCSV, char *professorsCSV, string inputSubCommand, string inputArguments);
+    PostCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
+                vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector, string inputSubCommand, string inputArguments);
     void RunCommand();
 
 private:
