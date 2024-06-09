@@ -5,14 +5,14 @@ PutCommand::PutCommand(vector<Major *> inputMajorVector, vector<Student *> input
                        Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<vector<string>> inputCourseOfferList)
     : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser)
 {
-    if(!CheckSubCommand(inputSubCommand))
+    if (!CheckSubCommand(inputSubCommand))
     {
         throw ErrorHandler(2);
     }
     subCommand = inputSubCommand;
     stringstream argstream(inputArguments);
     string temp;
-    while (getline(argstream , temp , ' '))
+    while (getline(argstream, temp, ' '))
     {
         arguments.push_back(temp);
     }
@@ -22,7 +22,7 @@ PutCommand::PutCommand(vector<Major *> inputMajorVector, vector<Student *> input
 
 bool PutCommand::CheckSubCommand(string inputSubCommand)
 {
-    for (int i = 0 ; i < putSubCommandsList.size() ; i++)
+    for (int i = 0; i < putSubCommandsList.size(); i++)
     {
         if (inputSubCommand == putSubCommandsList[i])
         {
@@ -34,17 +34,17 @@ bool PutCommand::CheckSubCommand(string inputSubCommand)
 
 void PutCommand::RunCommand()
 {
-    if(subCommand == "my_courses")
+    if (subCommand == "my_courses")
     {
-        //PutMyCoursesFunc(arguments);
+        PutMyCoursesFunc(arguments);
     }
 }
 
 void PutCommand::PutMyCoursesFunc(vector<string> inputArgs)
 {
     bool isCourse = false;
-    int stdCounter;
-    if(inputArgs.size() != 2)
+    int courseCounter = 0;
+    if (inputArgs.size() != 2)
     {
         throw ErrorHandler(3);
     }
@@ -52,16 +52,18 @@ void PutCommand::PutMyCoursesFunc(vector<string> inputArgs)
     {
         throw ErrorHandler(3);
     }
-    for (int i = 0 ; i < tempCourseOfferList.size() ; i++)
+    for (courseCounter; courseCounter < tempCourseOfferList.size(); courseCounter++)
     {
-        if (tempCourseOfferList[i][0] == inputArgs[1])
+        if (tempCourseOfferList[courseCounter][0] == inputArgs[1])
         {
             isCourse = true;
+            break;
         }
     }
-    if(!isCourse)
+    if (!isCourse)
     {
         throw ErrorHandler(2);
     }
-    CheckStudentConditions(inputArgs[1] , userWhoLogged);
+    CheckStudentConditions(inputArgs[1], userWhoLogged, tempCourseOfferList[courseCounter][3], tempCourseOfferList[courseCounter][4], tempCourseOfferList[courseCounter]);
+    cout << "OK" << endl;
 }

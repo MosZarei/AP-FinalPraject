@@ -6,11 +6,11 @@ Main::Main(char *inputCSV1, char *inputCSV2, char *inputCSV3, char *inputCSV4)
     MakeStudentList(inputCSV2);
     MakeCourseList(inputCSV3);
     MakeProfessorList(inputCSV4);
-    for(int i = 0 ; i < studentsList.size() ; i++)
+    for (int i = 0; i < studentsList.size(); i++)
     {
         defaultUser->Connect(studentsList[i]->getID());
     }
-    for(int i = 0 ; i < professorList.size() ; i++)
+    for (int i = 0; i < professorList.size(); i++)
     {
         defaultUser->Connect(professorList[i]->getID());
     }
@@ -81,15 +81,15 @@ void Main::SelectSubCommand(string inputSuperCommand, string inputSubCommand, st
 {
     if (inputSuperCommand == "POST")
     {
+        PostCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged, courseOffers);
         if ((loginState == LOGGED_OUT && inputSubCommand != "login") || (loginState == LOGGED_IN && inputSubCommand == "login"))
         {
             throw ErrorHandler(4);
         }
         else
         {
-            PostCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged , courseOffers);
             command.RunCommand();
-            if(inputSubCommand == "course_offer")
+            if (inputSubCommand == "course_offer")
             {
                 command.UpdateCourseOfferList(courseOffers);
             }
@@ -106,36 +106,37 @@ void Main::SelectSubCommand(string inputSuperCommand, string inputSubCommand, st
     }
     else if (inputSuperCommand == "GET")
     {
+        GetCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged, courseOffers);
         if (loginState == LOGGED_OUT)
         {
             throw ErrorHandler(4);
         }
         else
         {
-            GetCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged , courseOffers);
             command.RunCommand();
         }
     }
     else if (inputSuperCommand == "PUT")
     {
+        PutCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged, courseOffers);
         if (loginState == LOGGED_OUT)
         {
             throw ErrorHandler(4);
         }
         else
         {
-            // PutCommand command(subCommand , argumenrs);
+            command.RunCommand();
         }
     }
     else if (inputSuperCommand == "DELETE")
     {
+        DeleteCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged);
         if (loginState == LOGGED_OUT)
         {
             throw ErrorHandler(4);
         }
         else
         {
-            DeleteCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged);
             command.RunCommand();
         }
     }

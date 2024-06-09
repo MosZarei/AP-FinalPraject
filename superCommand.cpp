@@ -201,13 +201,11 @@ void SuperCommand::AddPostToUserPage(string userID, string title, string massage
     {
         tempStudentsList[stdCounter]->AddPost(title, massage);
         SendNotification(userID, tempStudentsList[stdCounter]->getConnectUsers(), "New Post");
-        // tempStudentsList[stdCounter]->PtintPosts();
     }
     else if (isPro)
     {
         tempProfessorList[proCounter]->AddPost(title, massage);
         SendNotification(userID, tempProfessorList[proCounter]->getConnectUsers(), "New Post");
-        // tempProfessorList[proCounter]->PtintPosts();
     }
     else if (isDefault)
     {
@@ -416,27 +414,56 @@ Course *SuperCommand::FindCourse(string courseID)
 Professor *SuperCommand::FindProfessor(string professorID)
 {
     int proCounter = 0;
-    for (proCounter; proCounter < tempProfessorList.size() ; proCounter++)
+    for (proCounter; proCounter < tempProfessorList.size(); proCounter++)
     {
-        if(professorID == tempProfessorList[proCounter]->getID())
+        if (professorID == tempProfessorList[proCounter]->getID())
         {
             return tempProfessorList[proCounter];
         }
     }
 }
 
-void SuperCommand::CheckStudentConditions(string courseID , string userID)
+void SuperCommand::CheckStudentConditions(string courseID, string userID, string courseTime, string courseExam, vector<string> courseLine)
 {
     int stdCounter = 0;
-    for (stdCounter ; stdCounter < tempStudentsList.size() ; stdCounter++)
+    for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
     {
         if (userID == tempStudentsList[stdCounter]->getID())
         {
             break;
         }
     }
-    if(!tempStudentsList[stdCounter]->CanTakeCourse(FindCourse(courseID)->GetPre() , FindCourse(courseID)->getMajor()))
+    if (!tempStudentsList[stdCounter]->CanTakeCourse(FindCourse(courseID)->GetPre(), FindCourse(courseID)->getMajor(), courseTime, courseExam))
     {
         throw ErrorHandler(4);
     }
+    tempStudentsList[stdCounter]->AddCourse(courseLine);
+    SendNotification(userID, tempStudentsList[stdCounter]->getConnectUsers(), "Get Course");
+}
+
+void SuperCommand::DeleteStudentCourse(string userID, string courseID)
+{
+    int stdCounter = 0;
+    for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
+    {
+        if (userID == tempStudentsList[stdCounter]->getID())
+        {
+            break;
+        }
+    }
+    tempStudentsList[stdCounter]->DeleteCourse(courseID);
+    SendNotification(userID, tempStudentsList[stdCounter]->getConnectUsers(), "Delete Course");
+}
+
+void SuperCommand::GetStudentCourses(string userID)
+{
+    int stdCounter = 0;
+    for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
+    {
+        if (userID == tempStudentsList[stdCounter]->getID())
+        {
+            break;
+        }
+    }
+    tempStudentsList[stdCounter]->PrintCourses();
 }

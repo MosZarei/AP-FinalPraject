@@ -2,10 +2,6 @@
 
 Users::Users(string userName, string userPass, string userMajor, string userID)
 {
-    if (userName == "" || userPass == "" || userMajor == "" || userID == "")
-    {
-        // handling exception
-    }
     name = userName;
     password = userPass;
     majorID = userMajor;

@@ -28,7 +28,9 @@ public:
     void CheckCourseAndProfessor(string courseID, string professorID, string time, vector<string> outputArgs);
     Course *FindCourse(string courseID);
     Professor *FindProfessor(string professorID);
-    void CheckStudentConditions(string courseID , string userID);
+    void CheckStudentConditions(string courseID , string userID , string courseTime , string courseExam , vector<string> courseLine);
+    void DeleteStudentCourse(string userID , string courseID);
+    void GetStudentCourses(string userID);
 
 private:
     vector<Student *> tempStudentsList;
@@ -83,6 +85,7 @@ private:
     bool CheckSubCommand(string inputSubCommand);
     void GetNotifications(vector<string> inputArgs);
     void GetCourses(vector<string> inputArgs);
+    void GetMyCourses(vector<string> inputArgs);
 };
 
 class DeleteCommand : public SuperCommand
@@ -100,6 +103,7 @@ private:
     string userWhoLogged = "";
     bool CheckSubCommand(string inputSubComand);
     void DeletePostFunc(vector<string> inputArgs);
+    void DeleteMyCourseFunc(vector<string> inputArgs);
 };
 
 class PutCommand : public SuperCommand

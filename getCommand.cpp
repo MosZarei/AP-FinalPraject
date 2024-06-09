@@ -41,11 +41,9 @@ void GetCommand::RunCommand()
     }
     else if (subCommand == "personal_page")
     {
-        // LogoutFunc(arguments);
     }
     else if (subCommand == "post")
     {
-        // PostFunc(arguments);
     }
     else if (subCommand == "notification")
     {
@@ -53,7 +51,7 @@ void GetCommand::RunCommand()
     }
     else if (subCommand == "my_courses")
     {
-        // course_offer func
+        GetMyCourses(arguments);
     }
 }
 
@@ -80,7 +78,10 @@ void GetCommand::GetCourses(vector<string> inputArgs)
     {
         if (tempCourseOfferList.size() != 0)
         {
-            sort(tempCourseOfferList.begin(), tempCourseOfferList.end(), SortCourseList);
+            if (tempCourseOfferList.size() > 1)
+            {
+                sort(tempCourseOfferList.begin(), tempCourseOfferList.end(), SortCourseList);
+            }
             for (int i = 0; i < tempCourseOfferList.size(); i++)
             {
                 cout << tempCourseOfferList[i][0] << " "
@@ -120,4 +121,13 @@ void GetCommand::GetCourses(vector<string> inputArgs)
              << tempCourseOfferList[courseListLine][4] << " "
              << tempCourseOfferList[courseListLine][5] << " " << endl;
     }
+}
+
+void GetCommand::GetMyCourses(vector<string> inputArgs)
+{
+    if (inputArgs.size() != 0)
+    {
+        throw ErrorHandler(3);
+    }
+    GetStudentCourses(userWhoLogged);
 }

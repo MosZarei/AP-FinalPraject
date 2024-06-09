@@ -114,7 +114,7 @@ void PostCommand::PostFunc(vector<string> inputArgs)
     localArgs.push_back(inputArgs[0]);
     for (int i = 1; i < inputArgs.size(); i++)
     {
-        if (inputArgs[i] == "massage" || inputArgs[i] == "title")
+        if (inputArgs[i] == "message" || inputArgs[i] == "title")
         {
             string title = "";
             string massage = "";
@@ -188,11 +188,12 @@ void PostCommand::CourseOfferFunc(vector<string> inputArgs)
         }
     }
     outputArgs.push_back(courseID);
-    outputArgs.push_back(professorID);
+    outputArgs.push_back(FindProfessor(professorID)->getName());
     outputArgs.push_back(capacity);
     outputArgs.push_back(time);
     outputArgs.push_back(examDate);
     outputArgs.push_back(classNumber);
+    outputArgs.push_back(FindCourse(courseID)->getName());
     if (stoi(courseID) < 1 || stoi(professorID) < 1 || stoi(capacity) < 1 || stoi(classNumber) < 1)
     {
         throw ErrorHandler(3);

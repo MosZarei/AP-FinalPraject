@@ -39,7 +39,7 @@ void DeleteCommand::RunCommand()
     }
     else if (subCommand == "my_courses")
     {
-        // DeleteMyCoursesFunc();
+        DeleteMyCourseFunc(arguments);
     }
 }
 
@@ -50,5 +50,19 @@ void DeleteCommand::DeletePostFunc(vector<string> inputArgs)
         throw ErrorHandler(3);
     }
     DeletePostOfUserPage(userWhoLogged, inputArgs[1]);
+    cout << "OK" << endl;
+}
+
+void DeleteCommand::DeleteMyCourseFunc(vector<string> inputArgs)
+{
+    if(inputArgs.size() != 2)
+    {
+        throw ErrorHandler(3);
+    }
+    if(stoi(inputArgs[1]) < 1)
+    {
+        throw ErrorHandler(3);
+    }
+    DeleteStudentCourse(userWhoLogged , inputArgs[1]);
     cout << "OK" << endl;
 }
