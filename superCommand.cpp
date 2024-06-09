@@ -106,7 +106,7 @@ void SuperCommand::CheckLoginCondditions(string userID, string userPass)
             break;
         }
     }
-    if (userID == tempDefaultUser->getName())
+    if (userID == tempDefaultUser->getID())
     {
         isDefaultUser = true;
     }
@@ -128,5 +128,214 @@ void SuperCommand::CheckLoginCondditions(string userID, string userPass)
     else
     {
         throw ErrorHandler(2);
+    }
+}
+
+void SuperCommand::ConnectUsers(string mainUserID, string targetUserId)
+{
+    bool isPro = false;
+    bool isStd = false;
+    int stdCounter = 0;
+    int proCounter = 0;
+    for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
+    {
+        if (targetUserId == tempStudentsList[stdCounter]->getID())
+        {
+            isStd = true;
+            break;
+        }
+    }
+    for (proCounter; proCounter < tempProfessorList.size(); proCounter++)
+    {
+        if (targetUserId == tempProfessorList[proCounter]->getID())
+        {
+            isPro = true;
+            break;
+        }
+    }
+    if (isPro || isStd)
+    {
+        if (isPro)
+        {
+            tempProfessorList[proCounter]->Connect(mainUserID);
+        }
+        else if (isStd)
+        {
+            tempStudentsList[stdCounter]->Connect(mainUserID);
+        }
+    }
+    else
+    {
+        throw ErrorHandler(2);
+    }
+}
+
+void SuperCommand::AddPostToUserPage(string userID, string title, string massage)
+{
+    bool isPro = false;
+    bool isStd = false;
+    int stdCounter = 0;
+    int proCounter = 0;
+    for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
+    {
+        if (userID == tempStudentsList[stdCounter]->getID())
+        {
+            isStd = true;
+            break;
+        }
+    }
+    for (proCounter; proCounter < tempProfessorList.size(); proCounter++)
+    {
+        if (userID == tempProfessorList[proCounter]->getID())
+        {
+            isPro = true;
+            break;
+        }
+    }
+    if (isStd)
+    {
+        tempStudentsList[stdCounter]->AddPost(title, massage);
+        SendNotification(userID, tempStudentsList[stdCounter]->getConnectUsers(), "New Post");
+        // tempStudentsList[stdCounter]->PtintPosts();
+    }
+    else if (isPro)
+    {
+        tempProfessorList[proCounter]->AddPost(title, massage);
+        SendNotification(userID, tempProfessorList[proCounter]->getConnectUsers(), "New Post");
+        // tempProfessorList[proCounter]->PtintPosts();
+    }
+}
+
+void SuperCommand::DeletePostOfUserPage(string userID, string postNum)
+{
+    bool isPro = false;
+    bool isStd = false;
+    int stdCounter = 0;
+    int proCounter = 0;
+    for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
+    {
+        if (userID == tempStudentsList[stdCounter]->getID())
+        {
+            isStd = true;
+            break;
+        }
+    }
+    for (proCounter; proCounter < tempProfessorList.size(); proCounter++)
+    {
+        if (userID == tempProfessorList[proCounter]->getID())
+        {
+            isPro = true;
+            break;
+        }
+    }
+    if (isStd)
+    {
+        tempStudentsList[stdCounter]->DeletePost(postNum);
+        // tempStudentsList[stdCounter]->PtintPosts();
+    }
+    else if (isPro)
+    {
+        tempProfessorList[proCounter]->DeletePost(postNum);
+        // tempProfessorList[proCounter]->PtintPosts();
+    }
+    else
+    {
+        throw ErrorHandler(2);
+    }
+}
+
+void SuperCommand::SendNotification(string userID, vector<string> connectedUsers, string notificationMassage)
+{
+    string userName;
+    bool isPro = false;
+    bool isStd = false;
+    int stdCounter = 0;
+    int proCounter = 0;
+    for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
+    {
+        if (userID == tempStudentsList[stdCounter]->getID())
+        {
+            isStd = true;
+            break;
+        }
+    }
+    for (proCounter; proCounter < tempProfessorList.size(); proCounter++)
+    {
+        if (userID == tempProfessorList[proCounter]->getID())
+        {
+            isPro = true;
+            break;
+        }
+    }
+    if (isStd)
+    {
+        userName = tempStudentsList[stdCounter]->getName();
+    }
+    else if (isPro)
+    {
+        userName = tempProfessorList[proCounter]->getName();
+    }
+    for (int i = 0; i < connectedUsers.size(); i++)
+    {
+        isPro = false;
+        isStd = false;
+        stdCounter = 0;
+        proCounter = 0;
+        for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
+        {
+            if (connectedUsers[i] == tempStudentsList[stdCounter]->getID())
+            {
+                isStd = true;
+                break;
+            }
+        }
+        for (proCounter; proCounter < tempProfessorList.size(); proCounter++)
+        {
+            if (connectedUsers[i] == tempProfessorList[proCounter]->getID())
+            {
+                isPro = true;
+                break;
+            }
+        }
+        if (isStd)
+        {
+            tempStudentsList[stdCounter]->AddNotification(userID, userName, notificationMassage);
+        }
+        else if (isPro)
+        {
+            tempProfessorList[proCounter]->AddNotification(userID, userName, notificationMassage);
+        }
+    }
+}
+
+void SuperCommand::ShowNotificaion(string userID)
+{
+    bool isPro = false;
+    bool isStd = false;
+    int stdCounter = 0;
+    int proCounter = 0;
+    for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
+    {
+        if (userID == tempStudentsList[stdCounter]->getID())
+        {
+            isStd = true;
+            break;
+        }
+    }
+    for (proCounter; proCounter < tempProfessorList.size(); proCounter++)
+    {
+        if (userID == tempProfessorList[proCounter]->getID())
+        {
+            isPro = true;
+            break;
+        }
+    }
+    if (isStd)
+    {
+        tempStudentsList[stdCounter]->PrintNotification();
+    }
+    else if (isPro)
+    {
+        tempProfessorList[proCounter]->PrintNotification();
     }
 }

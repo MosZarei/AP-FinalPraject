@@ -5,9 +5,8 @@ class Student : public Users
 public:
     Student(string studentID, string studentName, string studentMajor, string studentSemester, string studentPass);
     vector<Student *> students;
-    string getID() { return sID; }
     string getSemester() { return sSemester; }
 
 private:
-    string sID , sSemester;
+    string sSemester;
 };

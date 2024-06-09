@@ -57,10 +57,10 @@ void Main::Run()
     {
         try
         {
-            SuperCommand command(majorList, studentsList, courseList, professorList, defaultUser);
+            SuperCommand command(majorList, studentsList, courseList, professorList, defaultUser , courseOffers);
             command.GetInput();
             SelectSubCommand(command.GetSuperCommand(), command.GetSubCommand(), command.GetArguments());
-            command.Update(majorList, studentsList, courseList, professorList, defaultUser);
+            command.Update(majorList, studentsList, courseList, professorList, defaultUser , courseOffers);
         }
         catch (ErrorHandler &error)
         {
@@ -79,7 +79,7 @@ void Main::SelectSubCommand(string inputSuperCommand, string inputSubCommand, st
         }
         else
         {
-            PostCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged);
+            PostCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged , courseOffers);
             command.RunCommand();
             if (inputSubCommand == "login")
             {
@@ -100,7 +100,8 @@ void Main::SelectSubCommand(string inputSuperCommand, string inputSubCommand, st
         }
         else
         {
-            // GetCommand command(subCommand , argumenrs);
+            GetCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged , courseOffers);
+            command.RunCommand();
         }
     }
     else if (inputSuperCommand == "PUT")
@@ -122,7 +123,8 @@ void Main::SelectSubCommand(string inputSuperCommand, string inputSubCommand, st
         }
         else
         {
-            // DeleteCommand command(subCommand , argumenrs);
+            DeleteCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged , courseOffers);
+            command.RunCommand();
         }
     }
 }

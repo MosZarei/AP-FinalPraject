@@ -1,12 +1,11 @@
 #include "student.hpp"
 
 Student::Student(string studentID, string studentName, string studentMajor, string studentSemester, string studentPass)
-    : Users(studentName, studentPass, studentMajor)
+    : Users(studentName, studentPass, studentMajor , studentID)
 {
-    if (studentID == "" || studentSemester == "")
+    if (studentSemester == "")
     {
         // handling exception
     }
-    sID = studentID;
     sSemester = studentSemester;
 }
