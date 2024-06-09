@@ -2,8 +2,8 @@
 
 DeleteCommand::DeleteCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
                              vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector,
-                             Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<vector<string>> inputCourseOffers)
-    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser, inputCourseOffers)
+                             Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged)
+    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser)
 {
     if (!CheckSubCommand(inputSubCommand))
     {

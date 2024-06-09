@@ -10,15 +10,8 @@ Professor::Professor(string professorID, string professorName, string professorM
     pPosition = professorPosition;
 }
 
-bool Professor::CanGetCourse(string courseMajorID)
+bool Professor::CanGetCourse(vector<string> courseMajorsID)
 {
-    vector<string> courseMajorsID;
-    stringstream stream(courseMajorID);
-    string temp;
-    while (getline(stream, temp, SEMICOLON))
-    {
-        courseMajorsID.push_back(temp);
-    }
     for (int i = 0; i < courseMajorsID.size(); i++)
     {
         if (getMajor() == courseMajorsID[i])

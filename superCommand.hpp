@@ -13,9 +13,9 @@ class SuperCommand
 {
 public:
     SuperCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector, vector<Course *> inputCourseVector,
-                 vector<Professor *> inputProfessorVector, Users *inputDefaultUser, vector<vector<string>> inputCourseOffers);
+                 vector<Professor *> inputProfessorVector, Users *inputDefaultUser);
     void Update(vector<Major *> &inputMajorVector, vector<Student *> &inputStudentVector, vector<Course *> &inputCourseVector,
-                vector<Professor *> &inputProfessorVector, Users *&inputDefalutUser, vector<vector<string>> &inputCourseOffers);
+                vector<Professor *> &inputProfessorVector, Users *&inputDefalutUser);
     string GetSuperCommand() { return superCommand; }
     string GetSubCommand() { return subCommand; }
     string GetArguments() { return arguments; }
@@ -25,7 +25,10 @@ public:
     void AddPostToUserPage(string userID, string title, string massage);
     void DeletePostOfUserPage(string userID, string postNum);
     void ShowNotificaion(string userID);
-    void CheckCourseAndProfessor(string courseID , string professorID , string time , vector<string> outputArgs);
+    void CheckCourseAndProfessor(string courseID, string professorID, string time, vector<string> outputArgs);
+    Course *FindCourse(string courseID);
+    Professor *FindProfessor(string professorID);
+    void CheckStudentConditions(string courseID , string userID);
 
 private:
     vector<Student *> tempStudentsList;
@@ -33,12 +36,9 @@ private:
     vector<Course *> tempCourseList;
     vector<Major *> tempMajorList;
     Users *tempDefaultUser;
-    vector<vector<string>> tempCourseOffers;
     vector<string> superCommandList = {"POST", "GET", "DELETE", "PUT"};
     string superCommand, subCommand, seprator, arguments = "";
     bool CheckSuperCommand(string superCommand);
-    Student *FindStudent(string userID);
-    Professor *FindProfessor(string userID);
     void SendNotification(string userID, vector<string> connectedUsers, string notificationMassage);
 };
 
@@ -49,6 +49,7 @@ public:
                 vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector,
                 Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<vector<string>> inputCourseOffers);
     void RunCommand();
+    void UpdateCourseOfferList(vector<vector<string>> &inputCourseOffer);
     string GetUserWhoLogged() { return userWhoLogged; }
 
 private:
@@ -56,6 +57,7 @@ private:
     string subCommand;
     vector<string> arguments;
     string userWhoLogged = "";
+    vector<vector<string>> tempCourseOffer;
     bool CheckSubCommand(string inputSubCommand);
     void LoginFunc(vector<string> inputArgs);
     void LogoutFunc(vector<string> inputArgs);
@@ -69,7 +71,7 @@ class GetCommand : public SuperCommand
 public:
     GetCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
                vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector,
-               Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<vector<string>> inputCourseOffers);
+               Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<vector<string>> inputCourseOfferList);
     void RunCommand();
 
 private:
@@ -77,8 +79,10 @@ private:
     string subCommand;
     vector<string> arguments;
     string userWhoLogged = "";
+    vector<vector<string>> tempCourseOfferList;
     bool CheckSubCommand(string inputSubCommand);
     void GetNotifications(vector<string> inputArgs);
+    void GetCourses(vector<string> inputArgs);
 };
 
 class DeleteCommand : public SuperCommand
@@ -86,7 +90,7 @@ class DeleteCommand : public SuperCommand
 public:
     DeleteCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
                   vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector,
-                  Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<vector<string>> inputCourseOffers);
+                  Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged);
     void RunCommand();
 
 private:
@@ -96,4 +100,22 @@ private:
     string userWhoLogged = "";
     bool CheckSubCommand(string inputSubComand);
     void DeletePostFunc(vector<string> inputArgs);
+};
+
+class PutCommand : public SuperCommand
+{
+public:
+    PutCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
+               vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector,
+               Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<vector<string>> inputCourseOfferList);
+    void RunCommand();
+
+private:
+    vector<string> putSubCommandsList = {"my_courses"};
+    string subCommand;
+    vector<string> arguments;
+    string userWhoLogged = "";
+    vector<vector<string>> tempCourseOfferList;
+    bool CheckSubCommand(string inputSubCommand);
+    void PutMyCoursesFunc(vector<string> inputArgs);
 };

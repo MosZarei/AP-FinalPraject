@@ -1,25 +1,23 @@
 #include "superCommand.hpp"
 
 SuperCommand::SuperCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector, vector<Course *> inputCourseVector,
-                           vector<Professor *> inputProfessorVector, Users *inputDefalutUser, vector<vector<string>> inputCourseOffers)
+                           vector<Professor *> inputProfessorVector, Users *inputDefalutUser)
 {
     tempMajorList = inputMajorVector;
     tempStudentsList = inputStudentVector;
     tempCourseList = inputCourseVector;
     tempProfessorList = inputProfessorVector;
     tempDefaultUser = inputDefalutUser;
-    tempCourseOffers = inputCourseOffers;
 }
 
 void SuperCommand::Update(vector<Major *> &inputMajorVector, vector<Student *> &inputStudentVector, vector<Course *> &inputCourseVector,
-                          vector<Professor *> &inputProfessorVector, Users *&inputDefalutUser, vector<vector<string>> &inputCourseOffers)
+                          vector<Professor *> &inputProfessorVector, Users *&inputDefalutUser)
 {
     inputMajorVector = tempMajorList;
     inputStudentVector = tempStudentsList;
     inputCourseVector = tempCourseList;
     inputProfessorVector = tempProfessorList;
     inputDefalutUser = tempDefaultUser;
-    inputCourseOffers = tempCourseOffers;
 }
 
 bool SuperCommand::CheckSuperCommand(string superCommand)
@@ -176,6 +174,7 @@ void SuperCommand::AddPostToUserPage(string userID, string title, string massage
 {
     bool isPro = false;
     bool isStd = false;
+    bool isDefault = false;
     int stdCounter = 0;
     int proCounter = 0;
     for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
@@ -194,6 +193,10 @@ void SuperCommand::AddPostToUserPage(string userID, string title, string massage
             break;
         }
     }
+    if (userID == "0")
+    {
+        isDefault = true;
+    }
     if (isStd)
     {
         tempStudentsList[stdCounter]->AddPost(title, massage);
@@ -205,6 +208,11 @@ void SuperCommand::AddPostToUserPage(string userID, string title, string massage
         tempProfessorList[proCounter]->AddPost(title, massage);
         SendNotification(userID, tempProfessorList[proCounter]->getConnectUsers(), "New Post");
         // tempProfessorList[proCounter]->PtintPosts();
+    }
+    else if (isDefault)
+    {
+        tempDefaultUser->AddPost(title, massage);
+        SendNotification(userID, tempDefaultUser->getConnectUsers(), "New Post");
     }
 }
 
@@ -233,12 +241,10 @@ void SuperCommand::DeletePostOfUserPage(string userID, string postNum)
     if (isStd)
     {
         tempStudentsList[stdCounter]->DeletePost(postNum);
-        // tempStudentsList[stdCounter]->PtintPosts();
     }
     else if (isPro)
     {
         tempProfessorList[proCounter]->DeletePost(postNum);
-        // tempProfessorList[proCounter]->PtintPosts();
     }
     else
     {
@@ -251,6 +257,7 @@ void SuperCommand::SendNotification(string userID, vector<string> connectedUsers
     string userName;
     bool isPro = false;
     bool isStd = false;
+    bool isDefault = false;
     int stdCounter = 0;
     int proCounter = 0;
     for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
@@ -269,6 +276,10 @@ void SuperCommand::SendNotification(string userID, vector<string> connectedUsers
             break;
         }
     }
+    if (userID == "0")
+    {
+        isDefault = true;
+    }
     if (isStd)
     {
         userName = tempStudentsList[stdCounter]->getName();
@@ -276,6 +287,10 @@ void SuperCommand::SendNotification(string userID, vector<string> connectedUsers
     else if (isPro)
     {
         userName = tempProfessorList[proCounter]->getName();
+    }
+    else if (isDefault)
+    {
+        userName = tempDefaultUser->getPass();
     }
     for (int i = 0; i < connectedUsers.size(); i++)
     {
@@ -342,13 +357,13 @@ void SuperCommand::ShowNotificaion(string userID)
     }
 }
 
-void SuperCommand::CheckCourseAndProfessor(string courseID, string professorID , string time , vector<string> outputAtgs)
+void SuperCommand::CheckCourseAndProfessor(string courseID, string professorID, string time, vector<string> outputArgs)
 {
     bool isCourse = false;
     bool isPro = false;
     int courseCounter = 0;
     int proCounter = 0;
-    for (courseCounter ; courseCounter < tempCourseList.size() ; courseCounter++)
+    for (courseCounter; courseCounter < tempCourseList.size(); courseCounter++)
     {
         if (tempCourseList[courseCounter]->getID() == courseID)
         {
@@ -356,7 +371,7 @@ void SuperCommand::CheckCourseAndProfessor(string courseID, string professorID ,
             break;
         }
     }
-    for (proCounter ; proCounter < tempProfessorList.size(); proCounter++)
+    for (proCounter; proCounter < tempProfessorList.size(); proCounter++)
     {
         if (tempProfessorList[proCounter]->getID() == professorID)
         {
@@ -364,24 +379,64 @@ void SuperCommand::CheckCourseAndProfessor(string courseID, string professorID ,
             break;
         }
     }
-    for (int i = 0 ; i < tempStudentsList.size() ; i++)
+    for (int i = 0; i < tempStudentsList.size(); i++)
     {
         if (tempStudentsList[i]->getID() == professorID)
         {
             throw ErrorHandler(4);
         }
     }
-    if(!isCourse || !isPro)
+    if (!isCourse || !isPro)
     {
         throw ErrorHandler(2);
     }
-    if(!tempProfessorList[proCounter]->CanGetCourse(tempCourseList[courseCounter]->getMajor()))
+    if (!tempProfessorList[proCounter]->CanGetCourse(tempCourseList[courseCounter]->getMajor()))
     {
         throw ErrorHandler(4);
     }
-    if(!tempProfessorList[proCounter]->MatchTime(time))
+    if (!tempProfessorList[proCounter]->MatchTime(time))
     {
         throw ErrorHandler(4);
     }
-    tempCourseOffers.push_back(outputAtgs);
+    SendNotification(professorID, tempDefaultUser->getConnectUsers(), "New Course Offering");
+}
+
+Course *SuperCommand::FindCourse(string courseID)
+{
+    int courseCounter = 0;
+    for (courseCounter; courseCounter < tempCourseList.size(); courseCounter++)
+    {
+        if (courseID == tempCourseList[courseCounter]->getID())
+        {
+            return tempCourseList[courseCounter];
+        }
+    }
+}
+
+Professor *SuperCommand::FindProfessor(string professorID)
+{
+    int proCounter = 0;
+    for (proCounter; proCounter < tempProfessorList.size() ; proCounter++)
+    {
+        if(professorID == tempProfessorList[proCounter]->getID())
+        {
+            return tempProfessorList[proCounter];
+        }
+    }
+}
+
+void SuperCommand::CheckStudentConditions(string courseID , string userID)
+{
+    int stdCounter = 0;
+    for (stdCounter ; stdCounter < tempStudentsList.size() ; stdCounter++)
+    {
+        if (userID == tempStudentsList[stdCounter]->getID())
+        {
+            break;
+        }
+    }
+    if(!tempStudentsList[stdCounter]->CanTakeCourse(FindCourse(courseID)->GetPre() , FindCourse(courseID)->getMajor()))
+    {
+        throw ErrorHandler(4);
+    }
 }

@@ -8,4 +8,17 @@ Student::Student(string studentID, string studentName, string studentMajor, stri
         // handling exception
     }
     sSemester = studentSemester;
+    sMajor = studentMajor;
+}
+
+bool Student::CanTakeCourse(string coursePre , vector <string> courseMajor)
+{
+    for (int i = 0 ; i < courseMajor.size() ; i++)
+    {
+        if(sMajor == courseMajor[i] && sSemester >= coursePre)
+        {
+            return true;
+        }
+    }
+    return false;
 }

@@ -6,7 +6,7 @@ public:
     Professor(string professorID, string professorName, string professorMajor, string professorPositin, string professorPass);
     vector<Professor *> professors;
     string getPosition() { return pPosition; }
-    bool CanGetCourse(string courseMajorID);
+    bool CanGetCourse(vector<string> courseMajorsID);
     bool MatchTime(string time);
 
 private:

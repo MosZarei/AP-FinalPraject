@@ -3,7 +3,7 @@
 PostCommand::PostCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
                          vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector,
                          Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<vector<string>> inputCourseOffers)
-    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser, inputCourseOffers)
+    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser)
 {
     if (!CheckSubCommand(inputSubCommand))
     {
@@ -17,6 +17,7 @@ PostCommand::PostCommand(vector<Major *> inputMajorVector, vector<Student *> inp
         arguments.push_back(temp);
     }
     userWhoLogged = inputUserWhoLogged;
+    tempCourseOffer = inputCourseOffers;
 }
 
 bool PostCommand::CheckSubCommand(string inputSubCommand)
@@ -51,7 +52,7 @@ void PostCommand::RunCommand()
     }
     else if (subCommand == "course_offer")
     {
-        if(userWhoLogged == "0")
+        if (userWhoLogged == "0")
         {
             CourseOfferFunc(arguments);
         }
@@ -192,11 +193,16 @@ void PostCommand::CourseOfferFunc(vector<string> inputArgs)
     outputArgs.push_back(time);
     outputArgs.push_back(examDate);
     outputArgs.push_back(classNumber);
-    //cout << courseID << endl << professorID << endl << capacity << endl << time << endl << examDate << endl << classNumber << endl;
     if (stoi(courseID) < 1 || stoi(professorID) < 1 || stoi(capacity) < 1 || stoi(classNumber) < 1)
     {
         throw ErrorHandler(3);
     }
-    CheckCourseAndProfessor(courseID, professorID, time , outputArgs);
+    CheckCourseAndProfessor(courseID, professorID, time, outputArgs);
+    tempCourseOffer.push_back(outputArgs);
     cout << "OK" << endl;
+}
+
+void PostCommand::UpdateCourseOfferList(vector<vector<string>> &inputCourseOffer)
+{
+    inputCourseOffer = tempCourseOffer;
 }

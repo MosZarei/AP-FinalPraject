@@ -6,6 +6,14 @@ Main::Main(char *inputCSV1, char *inputCSV2, char *inputCSV3, char *inputCSV4)
     MakeStudentList(inputCSV2);
     MakeCourseList(inputCSV3);
     MakeProfessorList(inputCSV4);
+    for(int i = 0 ; i < studentsList.size() ; i++)
+    {
+        defaultUser->Connect(studentsList[i]->getID());
+    }
+    for(int i = 0 ; i < professorList.size() ; i++)
+    {
+        defaultUser->Connect(professorList[i]->getID());
+    }
 }
 
 void Main::MakeStudentList(char *studentsCSV)
@@ -57,15 +65,10 @@ void Main::Run()
     {
         try
         {
-            SuperCommand command(majorList, studentsList, courseList, professorList, defaultUser , courseOffers);
+            SuperCommand command(majorList, studentsList, courseList, professorList, defaultUser);
             command.GetInput();
             SelectSubCommand(command.GetSuperCommand(), command.GetSubCommand(), command.GetArguments());
-            command.Update(majorList, studentsList, courseList, professorList, defaultUser , courseOffers);
-            cout << courseOffers.size() << endl;
-            for(int i = 0 ; i < courseOffers.size() ; i++)
-            {
-                cout << courseOffers[i][0] << " - " << courseOffers[i][1] << " - " << courseOffers[i][2] << " - " << courseOffers[i][3] << " - " << courseOffers[i][4] << " - " << courseOffers[i][5] << endl;
-            }
+            command.Update(majorList, studentsList, courseList, professorList, defaultUser);
         }
         catch (ErrorHandler &error)
         {
@@ -86,6 +89,10 @@ void Main::SelectSubCommand(string inputSuperCommand, string inputSubCommand, st
         {
             PostCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged , courseOffers);
             command.RunCommand();
+            if(inputSubCommand == "course_offer")
+            {
+                command.UpdateCourseOfferList(courseOffers);
+            }
             if (inputSubCommand == "login")
             {
                 userWhoLogged = command.GetUserWhoLogged();
@@ -128,7 +135,7 @@ void Main::SelectSubCommand(string inputSuperCommand, string inputSubCommand, st
         }
         else
         {
-            DeleteCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged , courseOffers);
+            DeleteCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged);
             command.RunCommand();
         }
     }
