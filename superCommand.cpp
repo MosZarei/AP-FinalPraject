@@ -1,23 +1,25 @@
 #include "superCommand.hpp"
 
 SuperCommand::SuperCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector, vector<Course *> inputCourseVector,
-                           vector<Professor *> inputProfessorVector, Users *inputDefalutUser)
+                           vector<Professor *> inputProfessorVector, Users *inputDefalutUser, vector<vector<string>> inputCourseOffers)
 {
     tempMajorList = inputMajorVector;
     tempStudentsList = inputStudentVector;
     tempCourseList = inputCourseVector;
     tempProfessorList = inputProfessorVector;
     tempDefaultUser = inputDefalutUser;
+    tempCourseOffers = inputCourseOffers;
 }
 
 void SuperCommand::Update(vector<Major *> &inputMajorVector, vector<Student *> &inputStudentVector, vector<Course *> &inputCourseVector,
-                          vector<Professor *> &inputProfessorVector, Users *&inputDefalutUser)
+                          vector<Professor *> &inputProfessorVector, Users *&inputDefalutUser, vector<vector<string>> &inputCourseOffers)
 {
     inputMajorVector = tempMajorList;
     inputStudentVector = tempStudentsList;
     inputCourseVector = tempCourseList;
     inputProfessorVector = tempProfessorList;
     inputDefalutUser = tempDefaultUser;
+    inputCourseOffers = tempCourseOffers;
 }
 
 bool SuperCommand::CheckSuperCommand(string superCommand)
@@ -338,4 +340,48 @@ void SuperCommand::ShowNotificaion(string userID)
     {
         tempProfessorList[proCounter]->PrintNotification();
     }
+}
+
+void SuperCommand::CheckCourseAndProfessor(string courseID, string professorID , string time , vector<string> outputAtgs)
+{
+    bool isCourse = false;
+    bool isPro = false;
+    int courseCounter = 0;
+    int proCounter = 0;
+    for (courseCounter ; courseCounter < tempCourseList.size() ; courseCounter++)
+    {
+        if (tempCourseList[courseCounter]->getID() == courseID)
+        {
+            isCourse = true;
+            break;
+        }
+    }
+    for (proCounter ; proCounter < tempProfessorList.size(); proCounter++)
+    {
+        if (tempProfessorList[proCounter]->getID() == professorID)
+        {
+            isPro = true;
+            break;
+        }
+    }
+    for (int i = 0 ; i < tempStudentsList.size() ; i++)
+    {
+        if (tempStudentsList[i]->getID() == professorID)
+        {
+            throw ErrorHandler(4);
+        }
+    }
+    if(!isCourse || !isPro)
+    {
+        throw ErrorHandler(2);
+    }
+    if(!tempProfessorList[proCounter]->CanGetCourse(tempCourseList[courseCounter]->getMajor()))
+    {
+        throw ErrorHandler(4);
+    }
+    if(!tempProfessorList[proCounter]->MatchTime(time))
+    {
+        throw ErrorHandler(4);
+    }
+    tempCourseOffers.push_back(outputAtgs);
 }

@@ -9,6 +9,7 @@ using namespace std;
 
 extern char COMMA;
 extern string SEPRATOR;
+extern char SEMICOLON;
 extern int numOfLines(char *file);
 
 enum LoginState

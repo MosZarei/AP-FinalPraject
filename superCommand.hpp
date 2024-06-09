@@ -25,6 +25,7 @@ public:
     void AddPostToUserPage(string userID, string title, string massage);
     void DeletePostOfUserPage(string userID, string postNum);
     void ShowNotificaion(string userID);
+    void CheckCourseAndProfessor(string courseID , string professorID , string time , vector<string> outputArgs);
 
 private:
     vector<Student *> tempStudentsList;

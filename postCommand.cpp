@@ -2,8 +2,8 @@
 
 PostCommand::PostCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
                          vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector,
-                         Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged , vector<vector<string>> inputCourseOffers)
-    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser , inputCourseOffers)
+                         Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<vector<string>> inputCourseOffers)
+    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser, inputCourseOffers)
 {
     if (!CheckSubCommand(inputSubCommand))
     {
@@ -51,7 +51,14 @@ void PostCommand::RunCommand()
     }
     else if (subCommand == "course_offer")
     {
-        // course_offer func
+        if(userWhoLogged == "0")
+        {
+            CourseOfferFunc(arguments);
+        }
+        else
+        {
+            throw ErrorHandler(4);
+        }
     }
 }
 
@@ -151,36 +158,45 @@ void PostCommand::CourseOfferFunc(vector<string> inputArgs)
         throw ErrorHandler(3);
     }
     string courseID, professorID, capacity, time, examDate, classNumber;
+    vector<string> outputArgs;
     for (int i = 0; i < inputArgs.size() / 2; i++)
     {
-        if (inputArgs[2 * i + 1] == "course_id")
+        if (inputArgs[2 * i] == "course_id")
         {
-            courseID = inputArgs[2 * i + 2];
+            courseID = inputArgs[2 * i + 1];
         }
-        else if (inputArgs[2 * i + 1] == "professor_id")
+        else if (inputArgs[2 * i] == "professor_id")
         {
-            professorID = inputArgs[2 * i + 2];
+            professorID = inputArgs[2 * i + 1];
         }
-        else if (inputArgs[2 * i + 1] == "capacity")
+        else if (inputArgs[2 * i] == "capacity")
         {
-            capacity = inputArgs[2 * i + 2];
+            capacity = inputArgs[2 * i + 1];
         }
-        else if (inputArgs[2 * i + 1] == "time")
+        else if (inputArgs[2 * i] == "time")
         {
-            time = inputArgs[2 * i + 2];
+            time = inputArgs[2 * i + 1];
         }
-        else if (inputArgs[2 * i + 1] == "exam_date")
+        else if (inputArgs[2 * i] == "exam_date")
         {
-            examDate = inputArgs[2 * i + 2];
+            examDate = inputArgs[2 * i + 1];
         }
-        else if (inputArgs[2 * i + 1] == "class_number")
+        else if (inputArgs[2 * i] == "class_number")
         {
-            classNumber = inputArgs[2 * i + 2];
+            classNumber = inputArgs[2 * i + 1];
         }
     }
-    if(stoi(courseID) < 1 || stoi(professorID) < 1 || stoi(capacity) < 1 || stoi(classNumber) < 1)
+    outputArgs.push_back(courseID);
+    outputArgs.push_back(professorID);
+    outputArgs.push_back(capacity);
+    outputArgs.push_back(time);
+    outputArgs.push_back(examDate);
+    outputArgs.push_back(classNumber);
+    //cout << courseID << endl << professorID << endl << capacity << endl << time << endl << examDate << endl << classNumber << endl;
+    if (stoi(courseID) < 1 || stoi(professorID) < 1 || stoi(capacity) < 1 || stoi(classNumber) < 1)
     {
         throw ErrorHandler(3);
     }
-    //CheckCourseAndProfessor(courseID , professorID);
+    CheckCourseAndProfessor(courseID, professorID, time , outputArgs);
+    cout << "OK" << endl;
 }

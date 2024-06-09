@@ -61,6 +61,11 @@ void Main::Run()
             command.GetInput();
             SelectSubCommand(command.GetSuperCommand(), command.GetSubCommand(), command.GetArguments());
             command.Update(majorList, studentsList, courseList, professorList, defaultUser , courseOffers);
+            cout << courseOffers.size() << endl;
+            for(int i = 0 ; i < courseOffers.size() ; i++)
+            {
+                cout << courseOffers[i][0] << " - " << courseOffers[i][1] << " - " << courseOffers[i][2] << " - " << courseOffers[i][3] << " - " << courseOffers[i][4] << " - " << courseOffers[i][5] << endl;
+            }
         }
         catch (ErrorHandler &error)
         {
