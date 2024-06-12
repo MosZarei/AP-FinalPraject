@@ -89,3 +89,25 @@ void Users::PrintNotification()
     }
     notifications.clear();
 }
+
+void Users::PrintPosts(int line)
+{
+    cout << postsList[line][0] << " " << postsList[line][1] << endl;
+}
+
+void Users::PrintPostDetail(int line)
+{
+    cout << postsList[line][0] << " " << postsList[line][1] << " " << postsList[line][2] << endl;
+}
+
+bool Users::CheckPostExistence(string postID)
+{
+    for (int i = 0 ; i < postsList.size() ; i++)
+    {
+        if(postID == postsList[i][0])
+        {
+            return true;
+        }
+    }
+    return false;
+}

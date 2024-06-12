@@ -19,6 +19,7 @@ GetCommand::GetCommand(vector<Major *> inputMajorVector, vector<Student *> input
     }
     userWhoLogged = inputUserWhoLogged;
     tempCourseOfferList = inputCourseOfferList;
+    tempDefaultUser = inputDefaultUser;
 }
 
 bool GetCommand::CheckSubCommand(string inputSubCommand)
@@ -41,9 +42,11 @@ void GetCommand::RunCommand()
     }
     else if (subCommand == "personal_page")
     {
+        GetPersonalPage(arguments);
     }
     else if (subCommand == "post")
     {
+        GetPost(arguments);
     }
     else if (subCommand == "notification")
     {
@@ -78,7 +81,7 @@ void GetCommand::GetCourses(vector<string> inputArgs)
     {
         if (tempCourseOfferList.size() != 0)
         {
-            if (tempCourseOfferList.size() > 1)
+            if (tempCourseOfferList.size() >= 1)
             {
                 sort(tempCourseOfferList.begin(), tempCourseOfferList.end(), SortCourseList);
             }
@@ -87,7 +90,7 @@ void GetCommand::GetCourses(vector<string> inputArgs)
                 cout << tempCourseOfferList[i][0] << " "
                      << FindCourse(tempCourseOfferList[i][0])->getName() << " "
                      << tempCourseOfferList[i][2] << " "
-                     << FindProfessor(tempCourseOfferList[i][1])->getName() << endl;
+                     << tempCourseOfferList[i][1] << endl;
             }
         }
         else
@@ -116,7 +119,7 @@ void GetCommand::GetCourses(vector<string> inputArgs)
         cout << tempCourseOfferList[courseListLine][0] << " "
              << FindCourse(tempCourseOfferList[courseListLine][0])->getName() << " "
              << tempCourseOfferList[courseListLine][2] << " "
-             << FindProfessor(tempCourseOfferList[courseListLine][1])->getName() << " "
+             << tempCourseOfferList[courseListLine][1] << " "
              << tempCourseOfferList[courseListLine][3] << " "
              << tempCourseOfferList[courseListLine][4] << " "
              << tempCourseOfferList[courseListLine][5] << " " << endl;
@@ -130,4 +133,116 @@ void GetCommand::GetMyCourses(vector<string> inputArgs)
         throw ErrorHandler(3);
     }
     GetStudentCourses(userWhoLogged);
+}
+
+void GetCommand::GetPersonalPage(vector<string> inputArgs)
+{
+    if (inputArgs.size() != 2)
+    {
+        throw ErrorHandler(3);
+    }
+    if (stoi(inputArgs[1]) < 0)
+    {
+        throw ErrorHandler(3);
+    }
+    if (IsStudent(inputArgs[1]))
+    {
+        cout << FindStudent(inputArgs[1])->getName() << " " << FindMajor(FindStudent(inputArgs[1])->getMajor())->getMajorName() << " "
+             << FindStudent(inputArgs[1])->getSemester() << " ";
+        for (int i = 0; i < FindStudent(inputArgs[1])->getStudentCourses().size(); i++)
+        {
+            cout << FindStudent(inputArgs[1])->getCourseName(i);
+            if (i != FindStudent(inputArgs[1])->getStudentCourses().size() - 1)
+            {
+                cout << ",";
+            }
+        }
+        cout << endl;
+        for (int i = FindStudent(inputArgs[1])->getPostsNumber() - 1; i >= 0; i--)
+        {
+            FindStudent(inputArgs[1])->PrintPosts(i);
+        }
+    }
+    else if (IsProfessor(inputArgs[1]))
+    {
+        cout << FindProfessor(inputArgs[1])->getName() << " " << FindMajor(FindProfessor(inputArgs[1])->getMajor())->getMajorName() << " "
+             << FindProfessor(inputArgs[1])->getPosition() << " ";
+        for (int i = 0 ; i < FindProfessor(inputArgs[1])->getProfessorCourses().size() ; i++)
+        {
+            cout << FindProfessor(inputArgs[1])->get
+        }
+    }
+    else if (inputArgs[1] == "0")
+    {
+        cout << "UT_account" << endl;
+        for (int i = tempDefaultUser->getPostsNumber() - 1; i >= 0; i--)
+        {
+            tempDefaultUser->PrintPosts(i);
+        }
+    }
+    else
+    {
+        throw ErrorHandler(2);
+    }
+}
+
+void GetCommand::GetPost(vector<string> inputArgs)
+{
+    if (inputArgs.size() != 4)
+    {
+        throw ErrorHandler(3);
+    }
+    string userID;
+    string postID;
+    if (inputArgs[0] == "id")
+    {
+        userID = inputArgs[1];
+        postID = inputArgs[3];
+    }
+    else
+    {
+        postID = inputArgs[1];
+        userID = inputArgs[3];
+    }
+    if (stoi(userID) < 0 || stoi(postID) < 1)
+    {
+        throw ErrorHandler(3);
+    }
+    if (IsStudent(userID))
+    {
+        if (!FindStudent(userID)->CheckPostExistence(postID))
+        {
+            throw ErrorHandler(2);
+        }
+        cout << FindStudent(userID)->getName() << " " << FindMajor(FindStudent(userID)->getMajor())->getMajor() << " "
+             << FindStudent(userID)->getSemester() << " ";
+        for (int i = 0; i < FindStudent(userID)->getStudentCourses().size(); i++)
+        {
+            cout << FindStudent(userID)->getCourseName(i);
+            if (i != FindStudent(userID)->getStudentCourses().size() - 1)
+            {
+                cout << ",";
+            }
+        }
+        cout << endl;
+        for (int i = FindStudent(userID)->getPostsNumber() - 1; i >= 0; i--)
+        {
+            FindStudent(userID)->PrintPostDetail(i);
+        }
+    }
+    else if (IsProfessor(userID))
+    {
+    }
+    else if (userID == "0")
+    {
+        cout << "UT_account" << endl;
+        for (int i = tempDefaultUser->getPostsNumber() - 1; i >= 0; i--)
+        {
+            tempDefaultUser->PrintPostDetail(i);
+        }
+    }
+    else
+    {
+        throw ErrorHandler(2);
+    }
 }

@@ -11,20 +11,23 @@ public:
     string getPass() { return password; }
     string getMajor() { return majorID; }
     string getID() { return ID; }
+    int getPostsNumber() { return postsList.size(); }
     vector<string> getConnectUsers() { return connectedUsers; }
     bool MatchPassword(string userPass);
     void Connect(string targetUserID);
     void AddPost(string title, string massage);
     void DeletePost(string postNum);
-    void AddNotification(string userID , string userName , string notificationMassage);
+    void AddNotification(string userID, string userName, string notificationMassage);
     void PrintNotification();
-    void PtintPosts()
-    {
-        for (int i = 0; i < postsList.size(); i++)
-        {
-            cout << postsList[i][0] << " " << postsList[i][1] << " " << postsList[i][2] << endl;
-        }
-    }
+    void PrintPosts(int line);
+    void PrintPostDetail(int line);
+    bool CheckPostExistence(string postID);
+    // {
+    //     for (int i = 0; i < postsList.size(); i++)
+    //     {
+    //         cout << postsList[i][0] << " " << postsList[i][1] << " " << postsList[i][2] << endl;
+    //     }
+    // }
 
 private:
     string name, password, majorID, ID;

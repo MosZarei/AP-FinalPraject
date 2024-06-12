@@ -18,7 +18,7 @@ bool Professor::CanGetCourse(vector<string> courseMajorsID)
     return false;
 }
 
-bool Professor::MatchTime(string time)
+bool Professor::MatchTime(string time , vector<string> courseLine)
 {
     vector<string> courseTime;
     stringstream stream(time);
@@ -41,5 +41,6 @@ bool Professor::MatchTime(string time)
         }
     }
     courseOfferTime.push_back(courseTime);
+    professorCourses.push_back(courseLine);
     return true;
 }

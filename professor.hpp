@@ -7,9 +7,10 @@ public:
     vector<Professor *> professors;
     string getPosition() { return pPosition; }
     bool CanGetCourse(vector<string> courseMajorsID);
-    bool MatchTime(string time);
-
+    bool MatchTime(string time , vector<string> courseLine);
+    vector<vector<string>> getProfessorCourses() { return professorCourses; }
 private:
     string pPosition;
     vector<vector<string>> courseOfferTime;
+    vector<vector<string>> professorCourses;
 };

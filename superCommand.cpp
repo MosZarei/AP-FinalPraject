@@ -392,7 +392,7 @@ void SuperCommand::CheckCourseAndProfessor(string courseID, string professorID, 
     {
         throw ErrorHandler(4);
     }
-    if (!tempProfessorList[proCounter]->MatchTime(time))
+    if (!tempProfessorList[proCounter]->MatchTime(time , outputArgs))
     {
         throw ErrorHandler(4);
     }
@@ -411,6 +411,19 @@ Course *SuperCommand::FindCourse(string courseID)
     }
 }
 
+bool SuperCommand::IsCourse(string courseID)
+{
+    int courseCounter = 0;
+    for (courseCounter; courseCounter < tempCourseList.size(); courseCounter++)
+    {
+        if (courseID == tempCourseList[courseCounter]->getID())
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 Professor *SuperCommand::FindProfessor(string professorID)
 {
     int proCounter = 0;
@@ -419,6 +432,56 @@ Professor *SuperCommand::FindProfessor(string professorID)
         if (professorID == tempProfessorList[proCounter]->getID())
         {
             return tempProfessorList[proCounter];
+        }
+    }
+}
+
+bool SuperCommand::IsProfessor(string professorID)
+{
+    int proCounter = 0;
+    for (proCounter; proCounter < tempProfessorList.size(); proCounter++)
+    {
+        if (professorID == tempProfessorList[proCounter]->getID())
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+Student *SuperCommand::FindStudent(string studentID)
+{
+    int stdCounter = 0;
+    for(stdCounter ; stdCounter < tempStudentsList.size() ; stdCounter++)
+    {
+        if(studentID == tempStudentsList[stdCounter]->getID())
+        {
+            return tempStudentsList[stdCounter];
+        }
+    }
+}
+
+bool SuperCommand::IsStudent(string studentID)
+{
+    int stdCounter = 0;
+    for(stdCounter ; stdCounter < tempStudentsList.size() ; stdCounter++)
+    {
+        if(studentID == tempStudentsList[stdCounter]->getID())
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+Major *SuperCommand::FindMajor(string majorID)
+{
+    int majCounter = 0;
+    for(majCounter ; majCounter < tempMajorList.size() ; majCounter++)
+    {
+        if(majorID == tempMajorList[majCounter]->getID())
+        {
+            return tempMajorList[majCounter];
         }
     }
 }
