@@ -111,3 +111,8 @@ bool Users::CheckPostExistence(string postID)
     }
     return false;
 }
+
+void Users::AddProfilePhoto(string photoAddress)
+{
+    profilePhoto = photoAddress;
+}

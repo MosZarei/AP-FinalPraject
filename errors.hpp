@@ -5,7 +5,7 @@ class ErrorHandler
 {
 public:
     ErrorHandler(int errorNum);
-    void GetErrorMassage() { cerr << errorMassage << endl; }
+    void GetErrorMessage() { cerr << errorMessage << endl; }
 private:
-    string errorMassage = "";
+    string errorMessage = "";
 };

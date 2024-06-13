@@ -167,9 +167,18 @@ void GetCommand::GetPersonalPage(vector<string> inputArgs)
     {
         cout << FindProfessor(inputArgs[1])->getName() << " " << FindMajor(FindProfessor(inputArgs[1])->getMajor())->getMajorName() << " "
              << FindProfessor(inputArgs[1])->getPosition() << " ";
-        for (int i = 0 ; i < FindProfessor(inputArgs[1])->getProfessorCourses().size() ; i++)
+        for (int i = 0; i < FindProfessor(inputArgs[1])->getProfessorCourses().size(); i++)
         {
-            cout << FindProfessor(inputArgs[1])->get
+            cout << FindProfessor(inputArgs[1])->getCourseName(i);
+            if (i != FindProfessor(inputArgs[1])->getProfessorCourses().size() - 1)
+            {
+                cout << ",";
+            }
+        }
+        cout << endl;
+        for (int i = FindProfessor(inputArgs[1])->getPostsNumber() - 1; i >= 0; i--)
+        {
+            FindProfessor(inputArgs[1])->PrintPosts(i);
         }
     }
     else if (inputArgs[1] == "0")
@@ -214,7 +223,7 @@ void GetCommand::GetPost(vector<string> inputArgs)
         {
             throw ErrorHandler(2);
         }
-        cout << FindStudent(userID)->getName() << " " << FindMajor(FindStudent(userID)->getMajor())->getMajor() << " "
+        cout << FindStudent(userID)->getName() << " " << FindMajor(FindStudent(userID)->getMajor())->getMajorName() << " "
              << FindStudent(userID)->getSemester() << " ";
         for (int i = 0; i < FindStudent(userID)->getStudentCourses().size(); i++)
         {
@@ -232,6 +241,25 @@ void GetCommand::GetPost(vector<string> inputArgs)
     }
     else if (IsProfessor(userID))
     {
+        if (!FindProfessor(userID)->CheckPostExistence(postID))
+        {
+            throw ErrorHandler(2);
+        }
+        cout << FindProfessor(userID)->getName() << " " << FindMajor(FindProfessor(userID)->getMajor())->getMajorName() << " "
+             << FindProfessor(userID)->getPosition() << " ";
+        for (int i = 0; i < FindProfessor(userID)->getProfessorCourses().size(); i++)
+        {
+            cout << FindProfessor(userID)->getCourseName(i);
+            if (i != FindProfessor(userID)->getProfessorCourses().size() - 1)
+            {
+                cout << ",";
+            }
+        }
+        cout << endl;
+        for (int i = FindProfessor(userID)->getPostsNumber() - 1; i >= 0; i--)
+        {
+            FindProfessor(userID)->PrintPostDetail(i);
+        }
     }
     else if (userID == "0")
     {

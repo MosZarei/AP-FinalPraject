@@ -61,6 +61,10 @@ void PostCommand::RunCommand()
             throw ErrorHandler(4);
         }
     }
+    else if(subCommand == "profile_photo")
+    {
+        ProfilePhotoFunc(arguments);
+    }
 }
 
 void PostCommand::LoginFunc(vector<string> inputArgs)
@@ -206,4 +210,14 @@ void PostCommand::CourseOfferFunc(vector<string> inputArgs)
 void PostCommand::UpdateCourseOfferList(vector<vector<string>> &inputCourseOffer)
 {
     inputCourseOffer = tempCourseOffer;
+}
+
+void PostCommand::ProfilePhotoFunc(vector<string> inputArgs)
+{
+    if(inputArgs.size() != 2)
+    {
+        throw ErrorHandler(3);
+    }
+    MainProfilePhoto(inputArgs[1] , userWhoLogged);
+    throw ErrorHandler(0);
 }

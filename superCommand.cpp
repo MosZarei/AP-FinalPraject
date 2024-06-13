@@ -392,7 +392,7 @@ void SuperCommand::CheckCourseAndProfessor(string courseID, string professorID, 
     {
         throw ErrorHandler(4);
     }
-    if (!tempProfessorList[proCounter]->MatchTime(time , outputArgs))
+    if (!tempProfessorList[proCounter]->MatchTime(time, outputArgs))
     {
         throw ErrorHandler(4);
     }
@@ -452,9 +452,9 @@ bool SuperCommand::IsProfessor(string professorID)
 Student *SuperCommand::FindStudent(string studentID)
 {
     int stdCounter = 0;
-    for(stdCounter ; stdCounter < tempStudentsList.size() ; stdCounter++)
+    for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
     {
-        if(studentID == tempStudentsList[stdCounter]->getID())
+        if (studentID == tempStudentsList[stdCounter]->getID())
         {
             return tempStudentsList[stdCounter];
         }
@@ -464,9 +464,9 @@ Student *SuperCommand::FindStudent(string studentID)
 bool SuperCommand::IsStudent(string studentID)
 {
     int stdCounter = 0;
-    for(stdCounter ; stdCounter < tempStudentsList.size() ; stdCounter++)
+    for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
     {
-        if(studentID == tempStudentsList[stdCounter]->getID())
+        if (studentID == tempStudentsList[stdCounter]->getID())
         {
             return true;
         }
@@ -477,9 +477,9 @@ bool SuperCommand::IsStudent(string studentID)
 Major *SuperCommand::FindMajor(string majorID)
 {
     int majCounter = 0;
-    for(majCounter ; majCounter < tempMajorList.size() ; majCounter++)
+    for (majCounter; majCounter < tempMajorList.size(); majCounter++)
     {
-        if(majorID == tempMajorList[majCounter]->getID())
+        if (majorID == tempMajorList[majCounter]->getID())
         {
             return tempMajorList[majCounter];
         }
@@ -529,4 +529,20 @@ void SuperCommand::GetStudentCourses(string userID)
         }
     }
     tempStudentsList[stdCounter]->PrintCourses();
+}
+
+void SuperCommand::MainProfilePhoto(string photoAddress, string userID)
+{
+    if (IsStudent(userID))
+    {
+        FindStudent(userID)->AddProfilePhoto(photoAddress);
+    }
+    else if (IsProfessor(userID))
+    {
+        FindProfessor(userID)->AddProfilePhoto(photoAddress);
+    }
+    else if (userID == "0")
+    {
+        tempDefaultUser->AddProfilePhoto(photoAddress);
+    }
 }

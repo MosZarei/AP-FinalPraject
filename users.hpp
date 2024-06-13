@@ -22,15 +22,9 @@ public:
     void PrintPosts(int line);
     void PrintPostDetail(int line);
     bool CheckPostExistence(string postID);
-    // {
-    //     for (int i = 0; i < postsList.size(); i++)
-    //     {
-    //         cout << postsList[i][0] << " " << postsList[i][1] << " " << postsList[i][2] << endl;
-    //     }
-    // }
-
+    void AddProfilePhoto(string photoAddress);
 private:
-    string name, password, majorID, ID;
+    string name, password, majorID, ID , profilePhoto;
     vector<string> connectedUsers;
     vector<vector<string>> postsList;
     vector<vector<string>> notifications;

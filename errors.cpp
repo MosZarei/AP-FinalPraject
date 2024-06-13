@@ -4,20 +4,23 @@ ErrorHandler::ErrorHandler(int errorNum)
 {
     switch (errorNum)
     {
+    case 0:
+        errorMessage = "OK";
+        break;
     case 1:
-        errorMassage = "Empty";
+        errorMessage = "Empty";
         break;
     case 2:
-        errorMassage = "Not Found";
+        errorMessage = "Not Found";
         break;
     case 3:
-        errorMassage = "Bad Request";
+        errorMessage = "Bad Request";
         break;
     case 4:
-        errorMassage = "Permission Denied";
+        errorMessage = "Permission Denied";
         break;
     default:
-        errorMassage = "Error number is invalid!";
+        errorMessage = "Error number is invalid!";
         break;
     }
 }

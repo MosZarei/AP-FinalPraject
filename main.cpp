@@ -72,7 +72,7 @@ void Main::Run()
         }
         catch (ErrorHandler &error)
         {
-            error.GetErrorMassage();
+            error.GetErrorMessage();
         }
     }
 }

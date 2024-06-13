@@ -36,6 +36,7 @@ public:
     void CheckStudentConditions(string courseID , string userID , string courseTime , string courseExam , vector<string> courseLine);
     void DeleteStudentCourse(string userID , string courseID);
     void GetStudentCourses(string userID);
+    void MainProfilePhoto(string photoAddress , string userID);
 
 private:
     vector<Student *> tempStudentsList;
@@ -71,6 +72,7 @@ private:
     void ConnectFunc(vector<string> inputArgs);
     void PostFunc(vector<string> inputArgs);
     void CourseOfferFunc(vector<string> inputArgs);
+    void ProfilePhotoFunc(vector<string> inputArgs);
 };
 
 class GetCommand : public SuperCommand
