@@ -234,10 +234,7 @@ void GetCommand::GetPost(vector<string> inputArgs)
             }
         }
         cout << endl;
-        for (int i = FindStudent(userID)->getPostsNumber() - 1; i >= 0; i--)
-        {
-            FindStudent(userID)->PrintPostDetail(i);
-        }
+        FindStudent(userID)->PrintPostDetail(postID);
     }
     else if (IsProfessor(userID))
     {
@@ -256,18 +253,12 @@ void GetCommand::GetPost(vector<string> inputArgs)
             }
         }
         cout << endl;
-        for (int i = FindProfessor(userID)->getPostsNumber() - 1; i >= 0; i--)
-        {
-            FindProfessor(userID)->PrintPostDetail(i);
-        }
+        FindProfessor(userID)->PrintPostDetail(postID);
     }
     else if (userID == "0")
     {
         cout << "UT_account" << endl;
-        for (int i = tempDefaultUser->getPostsNumber() - 1; i >= 0; i--)
-        {
-            tempDefaultUser->PrintPostDetail(i);
-        }
+        tempDefaultUser->PrintPostDetail(postID);
     }
     else
     {

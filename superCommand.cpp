@@ -170,46 +170,46 @@ void SuperCommand::ConnectUsers(string mainUserID, string targetUserId)
     }
 }
 
-void SuperCommand::AddPostToUserPage(string userID, string title, string massage)
+void SuperCommand::AddPostToUserPage(string userID, string title, string massage , string photoAddress)
 {
-    bool isPro = false;
-    bool isStd = false;
-    bool isDefault = false;
-    int stdCounter = 0;
-    int proCounter = 0;
-    for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
+    // bool isPro = false;
+    // bool isStd = false;
+    // bool isDefault = false;
+    // int stdCounter = 0;
+    // int proCounter = 0;
+    // for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
+    // {
+    //     if (userID == tempStudentsList[stdCounter]->getID())
+    //     {
+    //         isStd = true;
+    //         break;
+    //     }
+    // }
+    // for (proCounter; proCounter < tempProfessorList.size(); proCounter++)
+    // {
+    //     if (userID == tempProfessorList[proCounter]->getID())
+    //     {
+    //         isPro = true;
+    //         break;
+    //     }
+    // }
+    // if (userID == "0")
+    // {
+    //     isDefault = true;
+    // }
+    if (IsStudent(userID))
     {
-        if (userID == tempStudentsList[stdCounter]->getID())
-        {
-            isStd = true;
-            break;
-        }
+        FindStudent(userID)->AddPost(title, massage , photoAddress);
+        SendNotification(userID, FindStudent(userID)->getConnectUsers(), "New Post");
     }
-    for (proCounter; proCounter < tempProfessorList.size(); proCounter++)
+    else if (IsProfessor(userID))
     {
-        if (userID == tempProfessorList[proCounter]->getID())
-        {
-            isPro = true;
-            break;
-        }
+        FindProfessor(userID)->AddPost(title, massage , photoAddress);
+        SendNotification(userID, FindProfessor(userID)->getConnectUsers(), "New Post");
     }
-    if (userID == "0")
+    else if (IsDefault(userID))
     {
-        isDefault = true;
-    }
-    if (isStd)
-    {
-        tempStudentsList[stdCounter]->AddPost(title, massage);
-        SendNotification(userID, tempStudentsList[stdCounter]->getConnectUsers(), "New Post");
-    }
-    else if (isPro)
-    {
-        tempProfessorList[proCounter]->AddPost(title, massage);
-        SendNotification(userID, tempProfessorList[proCounter]->getConnectUsers(), "New Post");
-    }
-    else if (isDefault)
-    {
-        tempDefaultUser->AddPost(title, massage);
+        tempDefaultUser->AddPost(title, massage , photoAddress);
         SendNotification(userID, tempDefaultUser->getConnectUsers(), "New Post");
     }
 }
@@ -483,6 +483,18 @@ Major *SuperCommand::FindMajor(string majorID)
         {
             return tempMajorList[majCounter];
         }
+    }
+}
+
+bool SuperCommand::IsDefault(string userID)
+{
+    if(userID == "0")
+    {
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
 

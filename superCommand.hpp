@@ -22,7 +22,7 @@ public:
     void GetInput();
     void CheckLoginCondditions(string userID, string userPass);
     void ConnectUsers(string mainUserID, string targetUserId);
-    void AddPostToUserPage(string userID, string title, string massage);
+    void AddPostToUserPage(string userID, string title, string massage , string photoAddress);
     void DeletePostOfUserPage(string userID, string postNum);
     void ShowNotificaion(string userID);
     void CheckCourseAndProfessor(string courseID, string professorID, string time, vector<string> outputArgs);
@@ -33,6 +33,7 @@ public:
     Student *FindStudent(string studentID);
     bool IsStudent(string studentID);
     Major *FindMajor(string majorID);
+    bool IsDefault(string userID);
     void CheckStudentConditions(string courseID , string userID , string courseTime , string courseExam , vector<string> courseLine);
     void DeleteStudentCourse(string userID , string courseID);
     void GetStudentCourses(string userID);

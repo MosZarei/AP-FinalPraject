@@ -1,0 +1,1 @@
+{"date":"2024-06-14T10:33:51.219Z","courseId":"17","assignment":"AP-Spring03-CA6-phase2","trace":{"version":74,"content":"#include \"requarment.hpp\"\n#include \"errors.hpp\"\n\nclass UserPosts\n{\npublic:\nprivate:\n};","filename":"/home/rayan/Desktop/clone/AP-FinalPraject/userPosts.hpp","identifier":"Text Change","lineCount":8,"languageId":"cpp"},"failed":false}

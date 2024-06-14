@@ -61,7 +61,7 @@ void PostCommand::RunCommand()
             throw ErrorHandler(4);
         }
     }
-    else if(subCommand == "profile_photo")
+    else if (subCommand == "profile_photo")
     {
         ProfilePhotoFunc(arguments);
     }
@@ -114,46 +114,97 @@ void PostCommand::ConnectFunc(vector<string> inputArgs)
 
 void PostCommand::PostFunc(vector<string> inputArgs)
 {
-    vector<string> localArgs;
-    localArgs.push_back(inputArgs[0]);
-    for (int i = 1; i < inputArgs.size(); i++)
+    string fullArg = "";
+    for (int i = 0; i < inputArgs.size(); i++)
     {
-        if (inputArgs[i] == "message" || inputArgs[i] == "title")
-        {
-            string title = "";
-            string massage = "";
-            for (int j = 1; j < i; j++)
-            {
-                title += inputArgs[j];
-                title += " ";
-            }
-            localArgs.push_back(title);
-            localArgs.push_back(inputArgs[i]);
-            for (int k = i + 1; k < inputArgs.size(); k++)
-            {
-                massage += inputArgs[k];
-                massage += " ";
-            }
-            localArgs.push_back(massage);
-        }
+        fullArg += inputArgs[i];
+        fullArg += " ";
     }
-    if (localArgs.size() != 4)
+    stringstream fullArgStream(fullArg);
+    string temp;
+    vector<string> firstTempVector;
+    while (getline(fullArgStream, temp, '"'))
+    {
+        firstTempVector.push_back(temp);
+    }
+    if(firstTempVector.size()!=5)
     {
         throw ErrorHandler(3);
     }
-    string postTitle, postMassage;
-    if (localArgs[0] == "title")
+    string postTitle, postMessage, postPhoto = "";
+    if (firstTempVector[0] == "title ")
     {
-        postTitle = localArgs[1];
-        postMassage = localArgs[3];
+        if (firstTempVector[2] == " message ")
+        {
+            postTitle = firstTempVector[1];
+            postMessage = firstTempVector[3];
+            if (firstTempVector.size() == 5)
+            {
+                stringstream ss(firstTempVector[4]);
+                for (int i = 0; i < 3; i++)
+                {
+                    getline(ss, postPhoto, ' ');
+                }
+            }
+        }
+        else
+        {
+            postTitle = firstTempVector[1];
+            postMessage = firstTempVector[4];
+            stringstream ss(firstTempVector[2]);
+            for (int i = 0; i < 3; i++)
+            {
+                getline(ss, postPhoto, ' ');
+            }
+        }
+    }
+    else if (firstTempVector[0] == "message ")
+    {
+        if (firstTempVector[2] == " title ")
+        {
+            postMessage = firstTempVector[1];
+            postTitle = firstTempVector[3];
+            if (firstTempVector.size() == 5)
+            {
+                stringstream ss(firstTempVector[4]);
+                for (int i = 0; i < 3; i++)
+                {
+                    getline(ss, postPhoto, ' ');
+                }
+            }
+        }
+        else
+        {
+            postMessage = firstTempVector[1];
+            postTitle = firstTempVector[4];
+            stringstream ss(firstTempVector[2]);
+            for (int i = 0; i < 3; i++)
+            {
+                getline(ss, postPhoto, ' ');
+            }
+        }
     }
     else
     {
-        postTitle = localArgs[3];
-        postMassage = localArgs[1];
+        stringstream ss(firstTempVector[0]);
+        for (int i = 0; i < 3; i++)
+        {
+            getline(ss, postPhoto, ' ');
+        }
+        if(firstTempVector[1] == " title ")
+        {
+            postTitle = firstTempVector[2];
+            postMessage = firstTempVector[4];
+        }
+        else
+        {
+            postMessage = firstTempVector[2];
+            postTitle = firstTempVector[4];
+        }
     }
-    AddPostToUserPage(userWhoLogged, postTitle, postMassage);
-    cout << "OK" << endl;
+    AddPostToUserPage(userWhoLogged, postTitle, postMessage , postPhoto);
+    //cout << "OK" << endl;
+    throw ErrorHandler(0);
 }
 
 void PostCommand::CourseOfferFunc(vector<string> inputArgs)
@@ -214,10 +265,10 @@ void PostCommand::UpdateCourseOfferList(vector<vector<string>> &inputCourseOffer
 
 void PostCommand::ProfilePhotoFunc(vector<string> inputArgs)
 {
-    if(inputArgs.size() != 2)
+    if (inputArgs.size() != 2)
     {
         throw ErrorHandler(3);
     }
-    MainProfilePhoto(inputArgs[1] , userWhoLogged);
+    MainProfilePhoto(inputArgs[1], userWhoLogged);
     throw ErrorHandler(0);
 }

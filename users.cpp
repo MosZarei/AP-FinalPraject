@@ -35,40 +35,42 @@ void Users::Connect(string targetUserID)
     connectedUsers.push_back(targetUserID);
 }
 
-void Users::AddPost(string title, string massage)
+void Users::AddPost(string title, string message, string photoAddress)
 {
-    vector<string> temp;
-    temp.push_back(to_string(postListSize + 1));
-    temp.push_back(title);
-    temp.push_back(massage);
-    postsList.push_back(temp);
+    // vector<string> temp;
+    // temp.push_back(to_string(postListSize + 1));
+    // temp.push_back(title);
+    // temp.push_back(massage);
+    // postsList.push_back(temp);
+    UserPosts *newPost = new UserPosts(to_string(postListSize + 1), title, message, photoAddress);
+    postList.push_back(newPost);
     postListSize++;
 }
 
 void Users::DeletePost(string postNum)
 {
-    vector<string> temp;
-    for (int i = 0; i < postsList.size(); i++)
+    vector<UserPosts *> temp;
+    for (int i = 0; i < postList.size(); i++)
     {
-        if (postNum == postsList[i][0])
+        if (postNum == postList[i]->GetPostID())
         {
-            temp = postsList[i];
-            for (int j = i + 1; j < postsList.size(); j++)
+            postList.push_back(postList[i]);
+            for (int j = i + 1; j < postList.size(); j++)
             {
-                postsList[j - 1] = postsList[j];
+                postList[j - 1] = postList[j];
             }
-            postsList[postsList.size() - 1] = temp;
-            postsList.pop_back();
+            postList.pop_back();
+            postList.pop_back();
             break;
         }
-        else if (i == postsList.size() - 1)
+        else if (i == postList.size() - 1)
         {
             throw ErrorHandler(2);
         }
     }
 }
 
-void Users::AddNotification(string userID , string userName , string notificationMassage)
+void Users::AddNotification(string userID, string userName, string notificationMassage)
 {
     vector<string> temp;
     temp.push_back(userID);
@@ -79,11 +81,11 @@ void Users::AddNotification(string userID , string userName , string notificatio
 
 void Users::PrintNotification()
 {
-    if(notifications.size() == 0)
+    if (notifications.size() == 0)
     {
         throw ErrorHandler(1);
     }
-    for(int i = notifications.size() - 1 ; i >= 0 ; i--)
+    for (int i = notifications.size() - 1; i >= 0; i--)
     {
         cout << notifications[i][0] << " " << notifications[i][1] << ": " << notifications[i][2] << endl;
     }
@@ -92,19 +94,27 @@ void Users::PrintNotification()
 
 void Users::PrintPosts(int line)
 {
-    cout << postsList[line][0] << " " << postsList[line][1] << endl;
+    cout << postList[line]->GetPostID() << " " << postList[line]->GetPostTitle() << endl;
 }
 
-void Users::PrintPostDetail(int line)
+void Users::PrintPostDetail(string postID)
 {
-    cout << postsList[line][0] << " " << postsList[line][1] << " " << postsList[line][2] << endl;
+    int postCounter = 0;
+    for (postCounter; postCounter < postList.size(); postCounter++)
+    {
+        if (postList[postCounter]->GetPostID() == postID)
+        {
+            break;
+        }
+    }
+    cout << postList[postCounter]->GetPostID() << " " << postList[postCounter]->GetPostTitle() << " " << postList[postCounter]->GetPostMessage() << " " << postList[postCounter]->getPostPhoto() << endl;
 }
 
 bool Users::CheckPostExistence(string postID)
 {
-    for (int i = 0 ; i < postsList.size() ; i++)
+    for (int i = 0; i < postList.size(); i++)
     {
-        if(postID == postsList[i][0])
+        if (postID == postList[i]->GetPostID())
         {
             return true;
         }

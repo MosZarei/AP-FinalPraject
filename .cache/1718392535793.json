@@ -1,0 +1,1 @@
+{"date":"2024-06-14T19:15:34.365Z","courseId":"17","assignment":"AP-Spring03-CA6-phase2","trace":{"version":146,"content":"#include <iostream>\n#include <vector>\n#include <string>\n\nint main()\n{\n    string photoArg = \" \"\n}","filename":"/home/rayan/Desktop/clone/AP-FinalPraject/test.cpp","identifier":"Text Change","lineCount":8,"languageId":"cpp"},"failed":false}
