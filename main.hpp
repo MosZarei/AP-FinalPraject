@@ -14,7 +14,7 @@ private:
     vector<Professor *> professorList;
     vector<Course *> courseList;
     vector<Major *> majorList;
-    vector<vector<string>> courseOffers;
+    vector<Course *> courseOffers;
     Users *defaultUser = new Users("0", "UT_account");
     LoginState loginState = LOGGED_OUT;
     string userWhoLogged = "";

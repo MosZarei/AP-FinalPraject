@@ -1,17 +1,20 @@
 #pragma once
 #include "users.hpp"
+#include "course.hpp"
 class Professor : public Users
 {
 public:
     Professor(string professorID, string professorName, string professorMajor, string professorPositin, string professorPass);
     vector<Professor *> professors;
     string getPosition() { return pPosition; }
-    string getCourseName(int line) { return professorCourses[line][6]; }
+    string getCourseName(int line) { return professorCourses[line]->getName(); }
     bool CanGetCourse(vector<string> courseMajorsID);
-    bool MatchTime(string time , vector<string> courseLine);
-    vector<vector<string>> getProfessorCourses() { return professorCourses; }
+    bool MatchTime(string time, Course *courseLine);
+    bool HaveCourse(string courseID);
+    vector<Course *> getProfessorCourses() { return professorCourses; }
+
 private:
     string pPosition;
     vector<vector<string>> courseOfferTime;
-    vector<vector<string>> professorCourses;
+    vector<Course *> professorCourses;
 };

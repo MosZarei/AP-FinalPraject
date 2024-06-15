@@ -1,13 +1,14 @@
 #include "superCommand.hpp"
 
 SuperCommand::SuperCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector, vector<Course *> inputCourseVector,
-                           vector<Professor *> inputProfessorVector, Users *inputDefalutUser)
+                           vector<Professor *> inputProfessorVector, Users *inputDefalutUser, vector<Course *> inputCourseOffers)
 {
     tempMajorList = inputMajorVector;
     tempStudentsList = inputStudentVector;
     tempCourseList = inputCourseVector;
     tempProfessorList = inputProfessorVector;
     tempDefaultUser = inputDefalutUser;
+    tempCourseOffers = inputCourseOffers;
 }
 
 void SuperCommand::Update(vector<Major *> &inputMajorVector, vector<Student *> &inputStudentVector, vector<Course *> &inputCourseVector,
@@ -170,46 +171,21 @@ void SuperCommand::ConnectUsers(string mainUserID, string targetUserId)
     }
 }
 
-void SuperCommand::AddPostToUserPage(string userID, string title, string massage , string photoAddress)
+void SuperCommand::AddPostToUserPage(string userID, string title, string massage, string photoAddress)
 {
-    // bool isPro = false;
-    // bool isStd = false;
-    // bool isDefault = false;
-    // int stdCounter = 0;
-    // int proCounter = 0;
-    // for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
-    // {
-    //     if (userID == tempStudentsList[stdCounter]->getID())
-    //     {
-    //         isStd = true;
-    //         break;
-    //     }
-    // }
-    // for (proCounter; proCounter < tempProfessorList.size(); proCounter++)
-    // {
-    //     if (userID == tempProfessorList[proCounter]->getID())
-    //     {
-    //         isPro = true;
-    //         break;
-    //     }
-    // }
-    // if (userID == "0")
-    // {
-    //     isDefault = true;
-    // }
     if (IsStudent(userID))
     {
-        FindStudent(userID)->AddPost(title, massage , photoAddress);
+        FindStudent(userID)->AddPost(title, massage, photoAddress);
         SendNotification(userID, FindStudent(userID)->getConnectUsers(), "New Post");
     }
     else if (IsProfessor(userID))
     {
-        FindProfessor(userID)->AddPost(title, massage , photoAddress);
+        FindProfessor(userID)->AddPost(title, massage, photoAddress);
         SendNotification(userID, FindProfessor(userID)->getConnectUsers(), "New Post");
     }
     else if (IsDefault(userID))
     {
-        tempDefaultUser->AddPost(title, massage , photoAddress);
+        tempDefaultUser->AddPost(title, massage, photoAddress);
         SendNotification(userID, tempDefaultUser->getConnectUsers(), "New Post");
     }
 }
@@ -355,7 +331,7 @@ void SuperCommand::ShowNotificaion(string userID)
     }
 }
 
-void SuperCommand::CheckCourseAndProfessor(string courseID, string professorID, string time, vector<string> outputArgs)
+void SuperCommand::CheckCourseAndProfessor(string courseID, string professorID, string time, Course *outputArgs)
 {
     bool isCourse = false;
     bool isPro = false;
@@ -407,6 +383,18 @@ Course *SuperCommand::FindCourse(string courseID)
         if (courseID == tempCourseList[courseCounter]->getID())
         {
             return tempCourseList[courseCounter];
+        }
+    }
+}
+
+Course *SuperCommand::FindCourseOffer(string courseID)
+{
+    int courseCounter = 0;
+    for (courseCounter; courseCounter < tempCourseOffers.size(); courseCounter++)
+    {
+        if (courseID == tempCourseOffers[courseCounter]->getID())
+        {
+            return tempCourseOffers[courseCounter];
         }
     }
 }
@@ -488,7 +476,7 @@ Major *SuperCommand::FindMajor(string majorID)
 
 bool SuperCommand::IsDefault(string userID)
 {
-    if(userID == "0")
+    if (userID == "0")
     {
         return true;
     }
@@ -498,7 +486,7 @@ bool SuperCommand::IsDefault(string userID)
     }
 }
 
-void SuperCommand::CheckStudentConditions(string courseID, string userID, string courseTime, string courseExam, vector<string> courseLine)
+void SuperCommand::CheckStudentConditions(string courseID, string userID, string courseTime, string courseExam, Course *courseLine)
 {
     int stdCounter = 0;
     for (stdCounter; stdCounter < tempStudentsList.size(); stdCounter++)
@@ -557,4 +545,25 @@ void SuperCommand::MainProfilePhoto(string photoAddress, string userID)
     {
         tempDefaultUser->AddProfilePhoto(photoAddress);
     }
+}
+
+void SuperCommand::CheckProfessorConditions(string professorID, string courseID, string message)
+{
+    if (!IsCourse(courseID))
+    {
+        throw ErrorHandler(2);
+    }
+    if (!FindProfessor(professorID)->HaveCourse(courseID))
+    {
+        throw ErrorHandler(4);
+    }
+    // string title = "TA form for ";
+    // title += FindCourse(courseID)->getName();
+    // title += " course";
+    // title += "|";
+    // title = title + courseID + " " + FindCourseOffer(courseID)->getName() + " " +
+    //         FindCourseOffer(courseID)->GetCapacity() + " " + FindCourseOffer(courseID)->GetProfName() + " " +
+    //         FindCourseOffer(courseID)->GetTime() + " " + FindCourseOffer(courseID)->GetExamDate() + " " + FindCourseOffer(courseID)->GetClassNum();
+    FindProfessor(professorID)->AddTAForm(FindCourse(courseID), message);
+    SendNotification(professorID, FindProfessor(professorID)->getConnectUsers(), "New Form");
 }

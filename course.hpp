@@ -5,12 +5,19 @@ class Course
 {
 public:
     Course(string courseID, string courseName, string courseCredit, string coursePre, string courseMajors);
-    string getID() { return cID; }
+    Course(string courseID, string courseName, string courseCapacity, string profName, string courseTime, string examDate, string classNum);
+    string getID() { return ID; }
     vector<string> getMajor();
-    string getName() { return cName; }
-    string GetPre() { return cPre; }
+    string getName() { return name; }
+    string GetCapacity() { return capacity; }
+    string GetProfName() { return professorName; }
+    string GetTime() { return time; }
+    string GetExamDate() { return examDate; }
+    string GetClassNum() { return classNumber; }
+    string GetPre() { return pre; }
 
 private:
-    string cID, cName, cCredit, cPre, cMajorString;
+    string ID, name, credit, pre, majorString,
+        capacity, professorName, time, examDate, classNumber;
     vector<string> cMajorVec;
 };

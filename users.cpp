@@ -47,6 +47,15 @@ void Users::AddPost(string title, string message, string photoAddress)
     postListSize++;
 }
 
+void Users::AddTAForm(Course *selectedCourse, string message)
+{
+    // UserPosts *newTAForm = new UserPosts(to_string(postListSize + 1), title, message);
+    // newTAForm->MakeTAForm();
+    TAForm *newTAForm = new TAForm(to_string(postListSize + 1) , selectedCourse , message);
+    postList.push_back(newTAForm);
+    postListSize++;
+}
+
 void Users::DeletePost(string postNum)
 {
     vector<UserPosts *> temp;
@@ -94,7 +103,17 @@ void Users::PrintNotification()
 
 void Users::PrintPosts(int line)
 {
-    cout << postList[line]->GetPostID() << " " << postList[line]->GetPostTitle() << endl;
+    // if (postList[line]->IsTAForm())
+    // {
+    //     stringstream stream(postList[line]->GetPostTitle());
+    //     string title;
+    //     getline(stream, title, '|');
+    //     cout << postList[line]->GetPostID() << " " << title << endl;
+    // }
+    // else
+    // {
+         cout << postList[line]->GetPostID() << " " << postList[line]->GetPostTitle() << endl;
+    // }
 }
 
 void Users::PrintPostDetail(string postID)
@@ -107,7 +126,21 @@ void Users::PrintPostDetail(string postID)
             break;
         }
     }
-    cout << postList[postCounter]->GetPostID() << " " << postList[postCounter]->GetPostTitle() << " " << postList[postCounter]->GetPostMessage() << " " << postList[postCounter]->getPostPhoto() << endl;
+    postList[postCounter]->PrintDetail();
+    // if (postList[postCounter]->IsTAForm())
+    // {
+    //     stringstream stream(postList[postCounter]->GetPostTitle());
+    //     string title, detail;
+    //     getline(stream, title, '|');
+    //     getline(stream, detail, '|');
+    //     cout << postList[postCounter]->GetPostID() << " " << title << endl
+    //          << detail << endl
+    //          << postList[postCounter]->GetPostMessage() << endl;
+    // }
+    // else
+    // {
+    //     cout << postList[postCounter]->GetPostID() << " " << postList[postCounter]->GetPostTitle() << " " << postList[postCounter]->GetPostMessage() << endl;
+    // }
 }
 
 bool Users::CheckPostExistence(string postID)

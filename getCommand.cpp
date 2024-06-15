@@ -3,8 +3,8 @@
 
 GetCommand::GetCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
                        vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector,
-                       Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<vector<string>> inputCourseOfferList)
-    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser)
+                       Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<Course *> inputCourseOfferList)
+    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser , inputCourseOfferList)
 {
     if (!CheckSubCommand(inputSubCommand))
     {
@@ -67,7 +67,7 @@ void GetCommand::GetNotifications(vector<string> inputArgs)
     ShowNotificaion(userWhoLogged);
 }
 
-bool SortCourseList(vector<string> a, vector<string> b) { return a[0] < b[0]; }
+bool SortCourseList(Course *a, Course *b) { return a->getID() < b->getID(); }
 
 void GetCommand::GetCourses(vector<string> inputArgs)
 {
@@ -87,10 +87,10 @@ void GetCommand::GetCourses(vector<string> inputArgs)
             }
             for (int i = 0; i < tempCourseOfferList.size(); i++)
             {
-                cout << tempCourseOfferList[i][0] << " "
-                     << FindCourse(tempCourseOfferList[i][0])->getName() << " "
-                     << tempCourseOfferList[i][2] << " "
-                     << tempCourseOfferList[i][1] << endl;
+                cout << tempCourseOfferList[i]->getID() << " "
+                     << tempCourseOfferList[i]->getName() << " "
+                     << tempCourseOfferList[i]->GetCapacity() << " "
+                     << tempCourseOfferList[i]->GetProfName() << endl;
             }
         }
         else
@@ -106,7 +106,7 @@ void GetCommand::GetCourses(vector<string> inputArgs)
         }
         for (courseListLine; courseListLine < tempCourseOfferList.size(); courseListLine++)
         {
-            if (tempCourseOfferList[courseListLine][0] == inputArgs[1])
+            if (tempCourseOfferList[courseListLine]->getID() == inputArgs[1])
             {
                 isCourse = true;
                 break;
@@ -116,13 +116,13 @@ void GetCommand::GetCourses(vector<string> inputArgs)
         {
             throw ErrorHandler(2);
         }
-        cout << tempCourseOfferList[courseListLine][0] << " "
-             << FindCourse(tempCourseOfferList[courseListLine][0])->getName() << " "
-             << tempCourseOfferList[courseListLine][2] << " "
-             << tempCourseOfferList[courseListLine][1] << " "
-             << tempCourseOfferList[courseListLine][3] << " "
-             << tempCourseOfferList[courseListLine][4] << " "
-             << tempCourseOfferList[courseListLine][5] << " " << endl;
+        cout << tempCourseOfferList[courseListLine]->getID() << " "
+             << tempCourseOfferList[courseListLine]->getName() << " "
+             << tempCourseOfferList[courseListLine]->GetCapacity() << " "
+             << tempCourseOfferList[courseListLine]->GetProfName() << " "
+             << tempCourseOfferList[courseListLine]->GetTime() << " "
+             << tempCourseOfferList[courseListLine]->GetExamDate() << " "
+             << tempCourseOfferList[courseListLine]->GetClassNum() << " " << endl;
     }
 }
 

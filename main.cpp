@@ -65,7 +65,7 @@ void Main::Run()
     {
         try
         {
-            SuperCommand command(majorList, studentsList, courseList, professorList, defaultUser);
+            SuperCommand command(majorList, studentsList, courseList, professorList, defaultUser , courseOffers);
             command.GetInput();
             SelectSubCommand(command.GetSuperCommand(), command.GetSubCommand(), command.GetArguments());
             command.Update(majorList, studentsList, courseList, professorList, defaultUser);
@@ -130,7 +130,7 @@ void Main::SelectSubCommand(string inputSuperCommand, string inputSubCommand, st
     }
     else if (inputSuperCommand == "DELETE")
     {
-        DeleteCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged);
+        DeleteCommand command(majorList, studentsList, courseList, professorList, defaultUser, inputSubCommand, inputArguments, userWhoLogged , courseOffers);
         if (loginState == LOGGED_OUT)
         {
             throw ErrorHandler(4);

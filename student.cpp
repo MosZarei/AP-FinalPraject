@@ -19,7 +19,7 @@ bool Student::CanTakeCourse(string coursePre, vector<string> courseMajor, string
     return false;
 }
 
-void Student::AddCourse(vector<string> courseLine)
+void Student::AddCourse(Course * courseLine)
 {
     stdCourses.push_back(courseLine);
 }
@@ -32,7 +32,7 @@ bool Student::MatchClassAndExamTime(string time, string examDate)
     }
     for (int i = 0; i < stdCourses.size(); i++)
     {
-        if ((stdCourses[i][4] != examDate) && MatchClassTime(time))
+        if ((stdCourses[i]->GetExamDate() != examDate) && MatchClassTime(time))
         {
             return true;
         }
@@ -73,7 +73,7 @@ void Student::DeleteCourse(string courseID)
     bool isCourse = false;
     for (courseCounter; courseCounter < stdCourses.size(); courseCounter++)
     {
-        if (courseID == stdCourses[courseCounter][0])
+        if (courseID == stdCourses[courseCounter]->getID())
         {
             isCourse = true;
             break;
@@ -83,12 +83,12 @@ void Student::DeleteCourse(string courseID)
     {
         throw ErrorHandler(2);
     }
-    temp = stdCourses[courseCounter];
+    stdCourses.push_back(stdCourses[courseCounter]);
     for (int i = courseCounter + 1; i < stdCourses.size(); i++)
     {
         stdCourses[i - 1] = stdCourses[i];
     }
-    stdCourses[stdCourses.size() - 1] = temp;
+    stdCourses.pop_back();
     stdCourses.pop_back();
 }
 
@@ -100,12 +100,12 @@ void Student::PrintCourses()
     }
     for (int i = 0; i < stdCourses.size(); i++)
     {
-        cout << stdCourses[i][0] << " "
-             << stdCourses[i][6] << " "
-             << stdCourses[i][2] << " "
-             << stdCourses[i][1] << " "
-             << stdCourses[i][3] << " "
-             << stdCourses[i][4] << " "
-             << stdCourses[i][5] << endl;
+        cout << stdCourses[i]->getID() << " "
+             << stdCourses[i]->getName() << " "
+             << stdCourses[i]->GetCapacity() << " "
+             << stdCourses[i]->GetProfName() << " "
+             << stdCourses[i]->GetTime() << " "
+             << stdCourses[i]->GetExamDate() << " "
+             << stdCourses[i]->GetClassNum() << endl;
     }
 }

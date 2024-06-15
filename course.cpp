@@ -2,16 +2,27 @@
 
 Course::Course(string courseID, string courseName, string courseCredit, string coursePre, string courseMajors)
 {
-    cID = courseID;
-    cName = courseName;
-    cCredit = courseCredit;
-    cPre = coursePre;
-    cMajorString = courseMajors;
+    ID = courseID;
+    name = courseName;
+    credit = courseCredit;
+    pre = coursePre;
+    majorString = courseMajors;
+}
+
+Course::Course(string courseID , string courseName , string courseCapacity , string profName , string courseTime , string courseExamDate , string classNum)
+{
+    ID = courseID;
+    name = courseName;
+    capacity = courseCapacity;
+    professorName = profName;
+    time = courseTime;
+    examDate = courseExamDate;
+    classNumber = classNum;
 }
 
 vector<string> Course::getMajor()
 {
-    stringstream majorStream (cMajorString);
+    stringstream majorStream (majorString);
     string temp;
     vector<string> tempV;
     while (getline(majorStream , temp , SEMICOLON))

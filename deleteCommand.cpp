@@ -2,8 +2,8 @@
 
 DeleteCommand::DeleteCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
                              vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector,
-                             Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged)
-    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser)
+                             Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged , vector <Course *> inputCourseOfferList)
+    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser , inputCourseOfferList)
 {
     if (!CheckSubCommand(inputSubCommand))
     {
@@ -17,6 +17,7 @@ DeleteCommand::DeleteCommand(vector<Major *> inputMajorVector, vector<Student *>
         arguments.push_back(temp);
     }
     userWhoLogged = inputUserWhoLogged;
+    tempCourseOfferList = inputCourseOfferList;
 }
 
 bool DeleteCommand::CheckSubCommand(string inputSubCommand)

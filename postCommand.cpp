@@ -1,9 +1,24 @@
 #include "superCommand.hpp"
 
+vector<string> RemoveSpaces(string input)
+{
+    vector<string> output;
+    stringstream ss(input);
+    string temp;
+    while (getline(ss, temp, ' '))
+    {
+        if (temp != "")
+        {
+            output.push_back(temp);
+        }
+    }
+    return output;
+}
+
 PostCommand::PostCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
                          vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector,
-                         Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<vector<string>> inputCourseOffers)
-    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser)
+                         Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<Course *> inputCourseOffers)
+    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser , inputCourseOffers)
 {
     if (!CheckSubCommand(inputSubCommand))
     {
@@ -64,6 +79,28 @@ void PostCommand::RunCommand()
     else if (subCommand == "profile_photo")
     {
         ProfilePhotoFunc(arguments);
+    }
+    else if (subCommand == "ta_form")
+    {
+        if (IsProfessor(userWhoLogged))
+        {
+            PostTAForm(arguments);
+        }
+        else
+        {
+            throw ErrorHandler(4);
+        }
+    }
+    else if(subCommand == "ta_request")
+    {
+        if(IsStudent(userWhoLogged))
+        {
+            //TARequestFunc(arguments);
+        }
+        else
+        {
+            throw ErrorHandler(4);
+        }
     }
 }
 
@@ -127,7 +164,7 @@ void PostCommand::PostFunc(vector<string> inputArgs)
     {
         firstTempVector.push_back(temp);
     }
-    if(firstTempVector.size()!=5)
+    if (firstTempVector.size() != 5)
     {
         throw ErrorHandler(3);
     }
@@ -191,7 +228,7 @@ void PostCommand::PostFunc(vector<string> inputArgs)
         {
             getline(ss, postPhoto, ' ');
         }
-        if(firstTempVector[1] == " title ")
+        if (firstTempVector[1] == " title ")
         {
             postTitle = firstTempVector[2];
             postMessage = firstTempVector[4];
@@ -202,8 +239,8 @@ void PostCommand::PostFunc(vector<string> inputArgs)
             postTitle = firstTempVector[4];
         }
     }
-    AddPostToUserPage(userWhoLogged, postTitle, postMessage , postPhoto);
-    //cout << "OK" << endl;
+    AddPostToUserPage(userWhoLogged, postTitle, postMessage, postPhoto);
+    // cout << "OK" << endl;
     throw ErrorHandler(0);
 }
 
@@ -242,23 +279,26 @@ void PostCommand::CourseOfferFunc(vector<string> inputArgs)
             classNumber = inputArgs[2 * i + 1];
         }
     }
-    outputArgs.push_back(courseID);
-    outputArgs.push_back(FindProfessor(professorID)->getName());
-    outputArgs.push_back(capacity);
-    outputArgs.push_back(time);
-    outputArgs.push_back(examDate);
-    outputArgs.push_back(classNumber);
-    outputArgs.push_back(FindCourse(courseID)->getName());
     if (stoi(courseID) < 1 || stoi(professorID) < 1 || stoi(capacity) < 1 || stoi(classNumber) < 1)
     {
         throw ErrorHandler(3);
     }
-    CheckCourseAndProfessor(courseID, professorID, time, outputArgs);
-    tempCourseOffer.push_back(outputArgs);
+    Course *newCourseOffer = new Course(courseID, FindCourse(courseID)->getName(),
+                                        capacity, FindProfessor(professorID)->getName(),
+                                        time, examDate, classNumber);
+    // outputArgs.push_back(courseID);
+    // outputArgs.push_back(FindProfessor(professorID)->getName());
+    // outputArgs.push_back(capacity);
+    // outputArgs.push_back(time);
+    // outputArgs.push_back(examDate);
+    // outputArgs.push_back(classNumber);
+    // outputArgs.push_back(FindCourse(courseID)->getName());
+    CheckCourseAndProfessor(courseID, professorID, time, newCourseOffer);
+    tempCourseOffer.push_back(newCourseOffer);
     cout << "OK" << endl;
 }
 
-void PostCommand::UpdateCourseOfferList(vector<vector<string>> &inputCourseOffer)
+void PostCommand::UpdateCourseOfferList(vector<Course *> &inputCourseOffer)
 {
     inputCourseOffer = tempCourseOffer;
 }
@@ -271,4 +311,107 @@ void PostCommand::ProfilePhotoFunc(vector<string> inputArgs)
     }
     MainProfilePhoto(inputArgs[1], userWhoLogged);
     throw ErrorHandler(0);
+}
+
+void PostCommand::PostTAForm(vector<string> inputArgs)
+{
+    vector<string> correctArgs;
+    if (inputArgs[0] == "course_id")
+    {
+        string fullArg = "";
+        for (int i = 0; i < inputArgs.size(); i++)
+        {
+            fullArg += inputArgs[i];
+            if (i != inputArgs.size() - 1)
+            {
+                fullArg += " ";
+            }
+        }
+        stringstream fullArgStream(fullArg);
+        string temp;
+        getline(fullArgStream, temp, '"');
+        correctArgs = RemoveSpaces(temp);
+        getline(fullArgStream, temp, '"');
+        correctArgs.push_back(temp);
+    }
+    else if (inputArgs[0] == "message")
+    {
+        string fullArg = "";
+        for (int i = 0; i < inputArgs.size(); i++)
+        {
+            fullArg += inputArgs[i];
+            if (i != inputArgs.size() - 1)
+            {
+                fullArg += " ";
+            }
+        }
+        stringstream fullArgStream(fullArg);
+        string temp;
+        getline(fullArgStream, temp, '"');
+        correctArgs = RemoveSpaces(temp);
+        getline(fullArgStream, temp, '"');
+        correctArgs.push_back(temp);
+        getline(fullArgStream, temp, '"');
+        vector<string> tempV = RemoveSpaces(temp);
+        for (int i = 0; i < tempV.size(); i++)
+        {
+            correctArgs.push_back(tempV[i]);
+        }
+    }
+    string courseID, message;
+    if (correctArgs.size() != 4)
+    {
+        throw ErrorHandler(3);
+    }
+    if (correctArgs[0] == "course_id")
+    {
+        if (correctArgs[2] == "message")
+        {
+            courseID = correctArgs[1];
+            message = correctArgs[3];
+        }
+    }
+    else if (correctArgs[0] == "message")
+    {
+        if (correctArgs[2] == "course_id")
+        {
+            courseID = correctArgs[3];
+            message = correctArgs[1];
+        }
+    }
+    else
+    {
+        throw ErrorHandler(3);
+    }
+    CheckProfessorConditions(userWhoLogged, courseID, message);
+    throw ErrorHandler(0);
+}
+
+void PostCommand::TARequsetFunc(vector<string> inputArgs)
+{
+    if(inputArgs.size() != 4)
+    {
+        throw ErrorHandler(3);
+    }
+    string profID , formID;
+    if(inputArgs[0] == "professor_id")
+    {
+        if(inputArgs[2] == "form_id")
+        {
+            profID = inputArgs[1];
+            formID = inputArgs[3];
+        }
+    }
+    else if(inputArgs[0] == "form_id")
+    {
+        if(inputArgs[2] == "professor_id")
+        {
+            profID = inputArgs[3];
+            formID = inputArgs[1];
+        }
+    }
+    else
+    {
+        throw ErrorHandler(3);
+    }
 }

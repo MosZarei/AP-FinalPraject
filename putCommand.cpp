@@ -2,8 +2,8 @@
 
 PutCommand::PutCommand(vector<Major *> inputMajorVector, vector<Student *> inputStudentVector,
                        vector<Course *> inputCourseVector, vector<Professor *> inputProfessorVector,
-                       Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<vector<string>> inputCourseOfferList)
-    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser)
+                       Users *inputDefaultUser, string inputSubCommand, string inputArguments, string inputUserWhoLogged, vector<Course *> inputCourseOfferList)
+    : SuperCommand(inputMajorVector, inputStudentVector, inputCourseVector, inputProfessorVector, inputDefaultUser , inputCourseOfferList)
 {
     if (!CheckSubCommand(inputSubCommand))
     {
@@ -54,7 +54,7 @@ void PutCommand::PutMyCoursesFunc(vector<string> inputArgs)
     }
     for (courseCounter; courseCounter < tempCourseOfferList.size(); courseCounter++)
     {
-        if (tempCourseOfferList[courseCounter][0] == inputArgs[1])
+        if (tempCourseOfferList[courseCounter]->getID() == inputArgs[1])
         {
             isCourse = true;
             break;
@@ -64,6 +64,6 @@ void PutCommand::PutMyCoursesFunc(vector<string> inputArgs)
     {
         throw ErrorHandler(2);
     }
-    CheckStudentConditions(inputArgs[1], userWhoLogged, tempCourseOfferList[courseCounter][3], tempCourseOfferList[courseCounter][4], tempCourseOfferList[courseCounter]);
+    CheckStudentConditions(inputArgs[1], userWhoLogged, tempCourseOfferList[courseCounter]->GetTime(), tempCourseOfferList[courseCounter]->GetExamDate(), tempCourseOfferList[courseCounter]);
     cout << "OK" << endl;
 }
