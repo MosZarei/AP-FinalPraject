@@ -11,10 +11,12 @@ public:
     bool CanGetCourse(vector<string> courseMajorsID);
     bool MatchTime(string time, Course *courseLine);
     bool HaveCourse(string courseID);
+    void AddTAForm(Course *selectedCourse , string message);
     vector<Course *> getProfessorCourses() { return professorCourses; }
 
 private:
     string pPosition;
     vector<vector<string>> courseOfferTime;
     vector<Course *> professorCourses;
+    vector<TAForm *> TAFormsList;
 };

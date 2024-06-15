@@ -20,4 +20,7 @@ private:
     string ID, name, credit, pre, majorString,
         capacity, professorName, time, examDate, classNumber;
     vector<string> cMajorVec;
+    vector<Users *> courseAdmins;
+    vector<UserPosts *> coursePosts;
+    vector<Student *> studentsWhoTakedCourse;
 };

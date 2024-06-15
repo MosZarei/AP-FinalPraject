@@ -47,14 +47,14 @@ void Users::AddPost(string title, string message, string photoAddress)
     postListSize++;
 }
 
-void Users::AddTAForm(Course *selectedCourse, string message)
-{
-    // UserPosts *newTAForm = new UserPosts(to_string(postListSize + 1), title, message);
-    // newTAForm->MakeTAForm();
-    TAForm *newTAForm = new TAForm(to_string(postListSize + 1) , selectedCourse , message);
-    postList.push_back(newTAForm);
-    postListSize++;
-}
+// void Users::AddTAForm(Course *selectedCourse, string message)
+// {
+//     // UserPosts *newTAForm = new UserPosts(to_string(postListSize + 1), title, message);
+//     // newTAForm->MakeTAForm();
+//     TAForm *newTAForm = new TAForm(to_string(postListSize + 1) , selectedCourse , message);
+//     postList.push_back(newTAForm);
+//     postListSize++;
+// }
 
 void Users::DeletePost(string postNum)
 {

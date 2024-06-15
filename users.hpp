@@ -13,11 +13,12 @@ public:
     string getMajor() { return majorID; }
     string getID() { return ID; }
     int getPostsNumber() { return postList.size(); }
+    int GetPostListSize() { return postListSize; }
     vector<string> getConnectUsers() { return connectedUsers; }
     bool MatchPassword(string userPass);
     void Connect(string targetUserID);
     void AddPost(string title, string massage , string photoAddress);
-    void AddTAForm(Course *selectedCourse , string message);
+    //void AddTAForm(Course *selectedCourse , string message);
     void DeletePost(string postNum);
     void AddNotification(string userID, string userName, string notificationMassage);
     void PrintNotification();
