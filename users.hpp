@@ -1,7 +1,8 @@
 #pragma once
 #include "requarment.hpp"
 #include "errors.hpp"
-#include "taForm.hpp"
+#include "userPosts.hpp"
+#include "course.hpp"
 
 class Users
 {
@@ -18,7 +19,7 @@ public:
     bool MatchPassword(string userPass);
     void Connect(string targetUserID);
     void AddPost(string title, string massage , string photoAddress);
-    //void AddTAForm(Course *selectedCourse , string message);
+    void AddTAFormPost(string title , string message);
     void DeletePost(string postNum);
     void AddNotification(string userID, string userName, string notificationMassage);
     void PrintNotification();
@@ -29,8 +30,8 @@ public:
 private:
     string name, password, majorID, ID , profilePhoto;
     vector<string> connectedUsers;
-    //vector<vector<string>> postsList;
     vector<UserPosts*> postList;
     vector<vector<string>> notifications;
     int postListSize = 0;
 };
+

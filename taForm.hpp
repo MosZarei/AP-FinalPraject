@@ -1,14 +1,13 @@
+#pragma once
 #include "requarment.hpp"
-#include "userPosts.hpp"
 #include "course.hpp"
 
-class TAForm : public UserPosts
+class TAForm
 {
 public:
-    TAForm(string formID, Course *course, string message);
-    void PrintDetail();
+    TAForm(string formID, Course *course);
 
 private:
-    string ID , title , formMessage;
+    string ID;
     Course *selectedCourse;
 };

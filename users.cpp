@@ -37,24 +37,18 @@ void Users::Connect(string targetUserID)
 
 void Users::AddPost(string title, string message, string photoAddress)
 {
-    // vector<string> temp;
-    // temp.push_back(to_string(postListSize + 1));
-    // temp.push_back(title);
-    // temp.push_back(massage);
-    // postsList.push_back(temp);
     UserPosts *newPost = new UserPosts(to_string(postListSize + 1), title, message, photoAddress);
     postList.push_back(newPost);
     postListSize++;
 }
 
-// void Users::AddTAForm(Course *selectedCourse, string message)
-// {
-//     // UserPosts *newTAForm = new UserPosts(to_string(postListSize + 1), title, message);
-//     // newTAForm->MakeTAForm();
-//     TAForm *newTAForm = new TAForm(to_string(postListSize + 1) , selectedCourse , message);
-//     postList.push_back(newTAForm);
-//     postListSize++;
-// }
+void Users::AddTAFormPost(string title , string message)
+{
+    UserPosts *newUserPost = new UserPosts(to_string(postListSize + 1) , title , message);
+    newUserPost->MakeTAForm();
+    postList.push_back(newUserPost);
+    postListSize++;
+}
 
 void Users::DeletePost(string postNum)
 {
@@ -103,17 +97,17 @@ void Users::PrintNotification()
 
 void Users::PrintPosts(int line)
 {
-    // if (postList[line]->IsTAForm())
-    // {
-    //     stringstream stream(postList[line]->GetPostTitle());
-    //     string title;
-    //     getline(stream, title, '|');
-    //     cout << postList[line]->GetPostID() << " " << title << endl;
-    // }
-    // else
-    // {
-         cout << postList[line]->GetPostID() << " " << postList[line]->GetPostTitle() << endl;
-    // }
+    if (postList[line]->IsTAForm())
+    {
+        stringstream stream(postList[line]->GetPostTitle());
+        string title;
+        getline(stream, title, '|');
+        cout << postList[line]->GetPostID() << " " << title << endl;
+    }
+    else
+    {
+         cout << postList[line]->GetPostID() << " " << "\"" << postList[line]->GetPostTitle() << "\"" << endl;
+    }
 }
 
 void Users::PrintPostDetail(string postID)
@@ -126,21 +120,20 @@ void Users::PrintPostDetail(string postID)
             break;
         }
     }
-    postList[postCounter]->PrintDetail();
-    // if (postList[postCounter]->IsTAForm())
-    // {
-    //     stringstream stream(postList[postCounter]->GetPostTitle());
-    //     string title, detail;
-    //     getline(stream, title, '|');
-    //     getline(stream, detail, '|');
-    //     cout << postList[postCounter]->GetPostID() << " " << title << endl
-    //          << detail << endl
-    //          << postList[postCounter]->GetPostMessage() << endl;
-    // }
-    // else
-    // {
-    //     cout << postList[postCounter]->GetPostID() << " " << postList[postCounter]->GetPostTitle() << " " << postList[postCounter]->GetPostMessage() << endl;
-    // }
+    if (postList[postCounter]->IsTAForm())
+    {
+        stringstream stream(postList[postCounter]->GetPostTitle());
+        string title, detail;
+        getline(stream, title, '|');
+        getline(stream, detail, '|');
+        cout << postList[postCounter]->GetPostID() << " " << title << endl
+             << detail << endl
+             << "\"" << postList[postCounter]->GetPostMessage() << "\"" << endl;
+    }
+    else
+    {
+        cout << postList[postCounter]->GetPostID() << " " << "\"" << postList[postCounter]->GetPostTitle() << "\"" << " " << "\"" << postList[postCounter]->GetPostMessage() << "\"" << endl;
+    }
 }
 
 bool Users::CheckPostExistence(string postID)

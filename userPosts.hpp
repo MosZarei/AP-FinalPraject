@@ -1,3 +1,4 @@
+#pragma once
 #include "requarment.hpp"
 #include "errors.hpp"
 

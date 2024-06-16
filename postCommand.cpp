@@ -286,13 +286,6 @@ void PostCommand::CourseOfferFunc(vector<string> inputArgs)
     Course *newCourseOffer = new Course(courseID, FindCourse(courseID)->getName(),
                                         capacity, FindProfessor(professorID)->getName(),
                                         time, examDate, classNumber);
-    // outputArgs.push_back(courseID);
-    // outputArgs.push_back(FindProfessor(professorID)->getName());
-    // outputArgs.push_back(capacity);
-    // outputArgs.push_back(time);
-    // outputArgs.push_back(examDate);
-    // outputArgs.push_back(classNumber);
-    // outputArgs.push_back(FindCourse(courseID)->getName());
     CheckCourseAndProfessor(courseID, professorID, time, newCourseOffer);
     tempCourseOffer.push_back(newCourseOffer);
     cout << "OK" << endl;

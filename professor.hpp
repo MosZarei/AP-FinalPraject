@@ -1,6 +1,7 @@
 #pragma once
 #include "users.hpp"
 #include "course.hpp"
+#include "taForm.hpp"
 class Professor : public Users
 {
 public:
@@ -11,7 +12,7 @@ public:
     bool CanGetCourse(vector<string> courseMajorsID);
     bool MatchTime(string time, Course *courseLine);
     bool HaveCourse(string courseID);
-    void AddTAForm(Course *selectedCourse , string message);
+    void AddTAForm(Course *selectedCourse , string message , string title);
     vector<Course *> getProfessorCourses() { return professorCourses; }
 
 private:

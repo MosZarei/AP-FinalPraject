@@ -1,6 +1,7 @@
 #pragma once
 #include "users.hpp"
 #include "course.hpp"
+class Courses;
 class Student : public Users
 {
 public:

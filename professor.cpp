@@ -57,10 +57,9 @@ bool Professor::HaveCourse(string courseID)
     return false;
 }
 
-void Professor::AddTAForm(Course *selectedCourse, string message)
+void Professor::AddTAForm(Course *selectedCourse, string message , string title)
 {
-    // UserPosts *newTAForm = new UserPosts(to_string(postListSize + 1), title, message);
-    // newTAForm->MakeTAForm();
-    TAForm *newTAForm = new TAForm(to_string(GetPostListSize() + 1) , selectedCourse , message);
+    TAForm *newTAForm = new TAForm(to_string(GetPostListSize() + 1) , selectedCourse);
     TAFormsList.push_back(newTAForm);
+    AddTAFormPost(title , message);
 }

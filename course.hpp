@@ -1,6 +1,9 @@
 #pragma once
 #include "requarment.hpp"
+#include "users.hpp"
+#include "student.hpp"
 
+class Student;
 class Course
 {
 public:
@@ -19,8 +22,5 @@ public:
 private:
     string ID, name, credit, pre, majorString,
         capacity, professorName, time, examDate, classNumber;
-    vector<string> cMajorVec;
-    vector<Users *> courseAdmins;
-    vector<UserPosts *> coursePosts;
-    vector<Student *> studentsWhoTakedCourse;
+        vector<Student *> salam;
 };

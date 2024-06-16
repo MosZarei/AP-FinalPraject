@@ -557,13 +557,13 @@ void SuperCommand::CheckProfessorConditions(string professorID, string courseID,
     {
         throw ErrorHandler(4);
     }
-    // string title = "TA form for ";
-    // title += FindCourse(courseID)->getName();
-    // title += " course";
-    // title += "|";
-    // title = title + courseID + " " + FindCourseOffer(courseID)->getName() + " " +
-    //         FindCourseOffer(courseID)->GetCapacity() + " " + FindCourseOffer(courseID)->GetProfName() + " " +
-    //         FindCourseOffer(courseID)->GetTime() + " " + FindCourseOffer(courseID)->GetExamDate() + " " + FindCourseOffer(courseID)->GetClassNum();
-    FindProfessor(professorID)->AddTAForm(FindCourse(courseID), message);
+    string title = "TA form for ";
+    title += FindCourse(courseID)->getName();
+    title += " course";
+    title += "|";
+    title = title + courseID + " " + FindCourseOffer(courseID)->getName() + " " +
+            FindCourseOffer(courseID)->GetCapacity() + " " + FindCourseOffer(courseID)->GetProfName() + " " +
+            FindCourseOffer(courseID)->GetTime() + " " + FindCourseOffer(courseID)->GetExamDate() + " " + FindCourseOffer(courseID)->GetClassNum();
+    FindProfessor(professorID)->AddTAForm(FindCourse(courseID), message , title);
     SendNotification(professorID, FindProfessor(professorID)->getConnectUsers(), "New Form");
 }
